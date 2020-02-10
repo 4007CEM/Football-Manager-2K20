@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <tuple>
+#include <vector> 
 
 int percent(int value, int percentage)
 // Calculate percentage
@@ -10,6 +10,7 @@ int percent(int value, int percentage)
   return value * percentage / 100;
 }
 
+// Change to void
 std::string event_penalty(int attackers_effectivity = 0,
                           int goalkeepers_effectivity = 0)
 {
@@ -19,14 +20,17 @@ std::string event_penalty(int attackers_effectivity = 0,
   
   if (random <= A_Number)
   {
+    // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT
     return "goal, events before + penalty"; //Something
   }
   else
   {
+    // ADD LINE: update class for current match stats, VALUE: PENALTY_DEFF
     return "shotongoal, events before + penalty"; //Something
   }
 }
 
+// Change to void
 std::string event_cornerkick(int attackers_effectivity = 0,
                              int deffenders_effectivity = 0,
                              int goalkeepers_effectivity = 0)
@@ -38,146 +42,119 @@ std::string event_cornerkick(int attackers_effectivity = 0,
   if (random <= A_Number)
   {
     int shotongoal = A_Number * 20 / 100;
-    if (A_Number <= shotongoal)
+    if (random <= shotongoal)
     {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT
       return "shotongoal function, events before + cornerkick";
     }
     else
     {
-    int penalty = D_Number * 1 / 100;
-      if (D_Number <= penalty)
-      {
-        return "penalty function, events before + cornerkick";
-      }
-      else
-      {
-        return "attempt, cornerkick, events before ";
-      }
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT
+      return "attempt, cornerkick, events before ";
     }
   }
   else
   {
-    return "cornerkick, events before";
+    int penalty = D_Number * 1 / 100 + D_Number;
+    if (random <= penalty)
+    {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF_PENALTY
+      return "penalty function, events before + cornerkick";
+    }
+    else
+    {    
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
+      return "cornerkick, events before";
+    }
   }
 }
 
+// Change to void
 std::string event_shotongoal(int attackers_effectivity = 0,
                              int deffenders_effectivity = 0,
                              int goalkeepers_effectivity = 0)
 {
   int A_Number = attackers_effectivity + 500;
   int G_Number = goalkeepers_effectivity + 500;
-  int random = rand() % (A_Number + G_Number);
-  
+
   if (random <= A_Number)
   { 
-  int goal = A_Number * 20 / 100;
-    if (A_Number <= goal)
+  int goal = A_Number * 25 / 100;
+    if (random <= goal)
     {
-      return "goal, shotongoal + events before";
+      // ADD LINE: update class for current match stats, VALUE: ?SHOTONGOAL_AT, GOAL_AT
+      return "AG goal, shotongoal + events before";
     }
     else
     {
-      return "shotongoal + events before";
+      // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_AT
+      return "AS shotongoal + events before";
     }
   }
   else
   {
-  int cornerkick = G_Number * 8 / 100;
-    if (G_Number <= cornerkick)
+  int cornerkick = G_Number * 10 / 100 + G_Number;
+    if (random <= cornerkick )
     {
-      return "cornerkick function, events before + shotongoal";
+      // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF_CORNERKICK
+      return "DC cornerkick function, events before + shotongoal";
     }
     else
     {
-      return "shotongoal + events before";
+      // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF
+      return "DS shotongoal + events before";
     }
    }
 }
-  
 
-
-class Evneter
-{
-  int attempt;
-  
-public:
-  Evneter();
-  int GetAttempt();
-  void SetAttempt(int attempt);
-  
-}
-
-Evneter::Evneter():
-  attempt(0)
-{
-}
-
-int Evneter::GetAttempt()
-{
-  return attempt;
-}
-
-void Evneter::SetAttempt(int attempt)
-{
-  attempt = attempt;
-}
-
+// Change to void
 std::string event_attempt(int attackers_effectivity = 0,
-                             int deffenders_effectivity = 0,
-                             int goalkeepers_effectivity = 0)
-{
-  Evneter ev;
-  
+                          int deffenders_effectivity = 0,
+                          int goalkeepers_effectivity = 0
+                          )
+{ 
   int A_Number = attackers_effectivity + 500;
   int D_Number = deffenders_effectivity + 500;
   int random = rand() % (A_Number + D_Number);
-  std::cout << "random: "<< random << std::endl;
-  std::cout << "A_Number: "<< A_Number << std::endl;
-  std::cout << "D_Number: "<< D_Number << std::endl;
+  
   if(random <= A_Number)
   {
     int shotongoal = A_Number * 25 / 100;
-    std::cout << "shotongoal: "<< shotongoal << std::endl;
     if(random <= shotongoal)
     {
-      return "shotongoal function";
+      return "AS shotongoal function";
     }
     else
     {
-    int cornerkick = A_Number * 100 / 100 + shotongoal; //12
-      std::cout << "cornerkick: "<< cornerkick << std::endl;
-      if(random <= cornerkick)
-      {
-        ev.SetAttempt(1);
-        std::cout << ev.GetAttempt() << std::endl;
-        return "cornerkick function, attempt+1";
+      // ADD LINE: update class for current match stats, VALUE: ATTEMPT_AT
+      return "AA attempt";
+    }
+  }  
+  else 
+  {
+    int penalty = D_Number * 1 / 100 + D_Number;
+      if(random <= penalty)
+      {      
+        // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_PENALTY
+        return "DP penalty function, attempt+1";
       }
       else
       {
-      int penalty = A_Number * 1 / 100 + cornerkick;
-        std::cout << "penalty: "<< penalty << std::endl;
-        if(random <= penalty)
-        {
-          return "penalty function, attempt+1";
+        int cornerkick = D_Number * 10 / 100 + penalty;
+        if(random <= cornerkick)
+        {    
+          // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
+          return "DC cornerkick function, attempt+1";
         }
         else
         {
-          return "attempt";
+          // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF
+          return "DA attempt deff";          
         }
       }
     }
-  }
-  else
-  {
-    return "attempt deff";
-  }
-  
-  
-  
 }
   
-
 bool event_decide()
 // Decide to whom event will be processed. 
 // PLAYER = TRUE
@@ -196,9 +173,9 @@ bool event_decide()
   }
 }
 
-std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
-                       int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
-                       int injury_bonus = 0)
+std::string event_event(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
+                           int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
+                           int injury_bonus = 0)
 {
   //// This function returns event which is decided automatically 
   
@@ -232,9 +209,9 @@ std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offs
   
   while (true)
   {
-    int event = rand() % 1001; // From 0 to 1000
+    int event = rand() % 997; // From 0 to 996
     
-    if (event >= 0 and event <= 3 + penalty_bonus)
+    if (event >= 0 and event <= penalty_bonus)
       {   
         std::string result(penalty);
         return result;
@@ -264,7 +241,7 @@ std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offs
         std::string result(shotongoal);
         return result;
       }
-    else if (event >= 891 and event <= 896 + injury_bonus)
+    else if (event >= 891 and event <= 891 + injury_bonus)
       {
         std::string result(injury);
         return result;
@@ -308,12 +285,12 @@ std::string matchopportunity(int playerA_possesion, int playerB_possesion)
             }
           else
             {
-              return event_auto();
+              return event_event(0);
             }
         }
       else
         {
-          return event_auto();
+          return event_event(0);
         }
     }
   else
@@ -326,23 +303,16 @@ int main()
 {
  
  srand (time(0));  // initialize random seed, HAS TO STAY TO MAKE RAND WORKS
-  
+ 
  int counter = 0;
- int num = 0;
 
- while (counter != 95)
+
+ while (counter != 5)
    {
-   std::string result = matchopportunity(10000,10000); 
-   
-     if (result != "nothing")
-     {
-       std::cout << counter << " min -> " << num << ": " << result <<std::endl; 
-       num += 1; 
-     }
-     else 
-     {
-       std::cout << counter << " min -> x" << std::endl;
-     }             
+     std::cout << "---------------------" << std::endl;
+     std::cout << event_attempt() << std::endl;
+     std::cout << "---------------------" << std::endl;
      counter += 1;
+     
      }
 }
