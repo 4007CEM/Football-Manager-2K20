@@ -10,6 +10,174 @@ int percent(int value, int percentage)
   return value * percentage / 100;
 }
 
+std::string event_penalty(int attackers_effectivity = 0,
+                          int goalkeepers_effectivity = 0)
+{
+  int A_Number = attackers_effectivity + 500;
+  int G_Number = goalkeepers_effectivity + 500;
+  int random = rand() % (A_Number + G_Number);
+  
+  if (random <= A_Number)
+  {
+    return "goal, events before + penalty"; //Something
+  }
+  else
+  {
+    return "shotongoal, events before + penalty"; //Something
+  }
+}
+
+std::string event_cornerkick(int attackers_effectivity = 0,
+                             int deffenders_effectivity = 0,
+                             int goalkeepers_effectivity = 0)
+{
+  int A_Number = attackers_effectivity + 500;
+  int D_Number = deffenders_effectivity + 500;
+  int random = rand() % (A_Number + D_Number);
+  
+  if (random <= A_Number)
+  {
+    int shotongoal = A_Number * 20 / 100;
+    if (A_Number <= shotongoal)
+    {
+      return "shotongoal function, events before + cornerkick";
+    }
+    else
+    {
+    int penalty = D_Number * 1 / 100;
+      if (D_Number <= penalty)
+      {
+        return "penalty function, events before + cornerkick";
+      }
+      else
+      {
+        return "attempt, cornerkick, events before ";
+      }
+    }
+  }
+  else
+  {
+    return "cornerkick, events before";
+  }
+}
+
+std::string event_shotongoal(int attackers_effectivity = 0,
+                             int deffenders_effectivity = 0,
+                             int goalkeepers_effectivity = 0)
+{
+  int A_Number = attackers_effectivity + 500;
+  int G_Number = goalkeepers_effectivity + 500;
+  int random = rand() % (A_Number + G_Number);
+  
+  if (random <= A_Number)
+  { 
+  int goal = A_Number * 20 / 100;
+    if (A_Number <= goal)
+    {
+      return "goal, shotongoal + events before";
+    }
+    else
+    {
+      return "shotongoal + events before";
+    }
+  }
+  else
+  {
+  int cornerkick = G_Number * 8 / 100;
+    if (G_Number <= cornerkick)
+    {
+      return "cornerkick function, events before + shotongoal";
+    }
+    else
+    {
+      return "shotongoal + events before";
+    }
+   }
+}
+  
+
+
+class Evneter
+{
+  int attempt;
+  
+public:
+  Evneter();
+  int GetAttempt();
+  void SetAttempt(int attempt);
+  
+}
+
+Evneter::Evneter():
+  attempt(0)
+{
+}
+
+int Evneter::GetAttempt()
+{
+  return attempt;
+}
+
+void Evneter::SetAttempt(int attempt)
+{
+  attempt = attempt;
+}
+
+std::string event_attempt(int attackers_effectivity = 0,
+                             int deffenders_effectivity = 0,
+                             int goalkeepers_effectivity = 0)
+{
+  Evneter ev;
+  
+  int A_Number = attackers_effectivity + 500;
+  int D_Number = deffenders_effectivity + 500;
+  int random = rand() % (A_Number + D_Number);
+  std::cout << "random: "<< random << std::endl;
+  std::cout << "A_Number: "<< A_Number << std::endl;
+  std::cout << "D_Number: "<< D_Number << std::endl;
+  if(random <= A_Number)
+  {
+    int shotongoal = A_Number * 25 / 100;
+    std::cout << "shotongoal: "<< shotongoal << std::endl;
+    if(random <= shotongoal)
+    {
+      return "shotongoal function";
+    }
+    else
+    {
+    int cornerkick = A_Number * 100 / 100 + shotongoal; //12
+      std::cout << "cornerkick: "<< cornerkick << std::endl;
+      if(random <= cornerkick)
+      {
+        ev.SetAttempt(1);
+        std::cout << ev.GetAttempt() << std::endl;
+        return "cornerkick function, attempt+1";
+      }
+      else
+      {
+      int penalty = A_Number * 1 / 100 + cornerkick;
+        std::cout << "penalty: "<< penalty << std::endl;
+        if(random <= penalty)
+        {
+          return "penalty function, attempt+1";
+        }
+        else
+        {
+          return "attempt";
+        }
+      }
+    }
+  }
+  else
+  {
+    return "attempt deff";
+  }
+  
+  
+  
+}
+  
+
 bool event_decide()
 // Decide to whom event will be processed. 
 // PLAYER = TRUE
