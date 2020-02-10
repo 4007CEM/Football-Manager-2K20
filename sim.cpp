@@ -11,6 +11,38 @@ int percent(int value, int percentage)
 }
 
 // Change to void
+std::string event_injury(int serious_injury = 0,
+                         int temporary_injury = 0)
+{
+  int random = rand() % 101 ;
+  
+  int injury_3 = 5 + serious_injury;
+  if (random <= 101 * injury_3 / 100)
+  {
+    // ADD LINE: suspend player for whole match
+    // ADD LINE: update class for current match stats, VALUE: SERIOUS_INJURY
+    return "serious_injury";
+  }
+  else 
+  {
+    int injury_2 = 15 + temporary_injury;
+    if (random <= 101 * injury_2 / 100)
+    {
+    // ADD LINE: suspend player for some time in match, add some penalty for injured player
+    // ADD LINE: update class for current match stats, VALUE: TEMPORARY_INJURY
+    return "temporary_injury";    
+    }
+    else
+    {
+    // ADD LINE: add some penalty for injured player
+    // ADD LINE: update class for current match stats, VALUE: LIGHT_INJURY
+    return "light_injury";    
+    }
+
+  }
+}
+
+// Change to void
 std::string event_penalty(int attackers_effectivity = 0,
                           int goalkeepers_effectivity = 0)
 {
@@ -210,37 +242,30 @@ std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offs
     
     if (event >= 0 and event <= penalty_bonus)
       {   
-        //std::string penalty = "penalty";
         return "penalty";
       }
     else if (event >= 104 and event <= 150 + cornerkick_bonus)
       {
-        //std::string cornerkick = "cornerkick";
         return "cornerkick";
       }
     else if (event >= 251 and event <= 270 + offside_bonus)
       {
-        //std::string offside = "offside";
         return "offside";
       }
     else if (event >= 371 and event <= 420 + out_bonus)
       {
-        //std::string out = "out";
         return "out";
       }
     else if (event >= 521 and event <= 660 + attempt_bonus)
       {
-        //std::string attempt = "attempt";
         return "attempt";
       }
     else if (event >= 761 and event <= 790 + shotongoal_bonus)
       {
-        //std::string shotongoal = "shotongoal";
         return "shotongoal";
       }
     else if (event >= 891 and event <= 891 + injury_bonus)
       {
-        //std::string injury = "injury";
         return "injury";
       }
     else
@@ -285,6 +310,7 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
     {
     // Something what says: Add data to playerB stats
     std::string event = event_auto(); // pass arg
+      std::cout << "Player B: " << event << std::endl;
       if (event == "penalty")
       {
         event_penalty(); // pass arg
@@ -300,6 +326,10 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
       else if (event == "shotongoal")
       {
         event_shotongoal(); // pass arg
+      }
+      else if (event == "injury")
+      {
+        event_injury(); // pass arg
       }
       else
       {
@@ -325,6 +355,7 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
       std::string ev_type = event_type();
       if (ev_type == "player")
       {
+        std::cout << "Player A: Player event " << std::endl;
       // Runs player_events function
       return true;
       }
@@ -332,7 +363,7 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
       {
       // Something what says: Add data to playerA stats
       std::string event = event_auto(); // pass arg
-        
+        std::cout << "Player A: " << event << std::endl;
         if (event == "penalty")
         {
           event_penalty(); // pass arg
@@ -349,6 +380,10 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
         {
           event_shotongoal(); // pass arg
         }
+        else if (event == "injury")
+        {
+          event_injury(); // pass arg
+        }
         else
         {
           // ADD LINE: update class for current match stats, VALUE: EVENT
@@ -361,5 +396,14 @@ bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
 
 int main()
 {
-  matchopportunity_mechanics(50000,50000);
+ srand (time(0));  // initialize random seed, HAS TO STAY TO MAKE RAND WORKS
+ int counter = 0;
+
+ while (counter != 95)
+   {
+   std::cout << counter << " min" << std::endl;
+   matchopportunity_mechanics(10000,10000);       
+   counter += 1;
+   }             
 }
+
