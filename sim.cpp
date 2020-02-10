@@ -76,6 +76,7 @@ std::string event_shotongoal(int attackers_effectivity = 0,
 {
   int A_Number = attackers_effectivity + 500;
   int G_Number = goalkeepers_effectivity + 500;
+  int random = rand() % (A_Number + G_Number + 1);
 
   if (random <= A_Number)
   { 
@@ -115,7 +116,7 @@ std::string event_attempt(int attackers_effectivity = 0,
 { 
   int A_Number = attackers_effectivity + 500;
   int D_Number = deffenders_effectivity + 500;
-  int random = rand() % (A_Number + D_Number);
+  int random = rand() % (A_Number + D_Number + 1);
   
   if(random <= A_Number)
   {
@@ -155,30 +156,36 @@ std::string event_attempt(int attackers_effectivity = 0,
     }
 }
   
-bool event_decide()
+std::string event_type()
 // Decide to whom event will be processed. 
-// PLAYER = TRUE
-// AUTOMATIC = FALSE
 {
-  int event_for = rand() % 101; // From 0 to 100
-  
+  int event = rand() % 101; // From 0 to 100
   // Decide if event will be auto event or player event
-  if (event_for <= 5)
+  if (event <= 5)
   {
-    return true;
+    return "player";
   }
   else
   {
-    return false;
+    return "auto";
   }
 }
 
-std::string event_event(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
-                           int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
-                           int injury_bonus = 0)
+std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
+                       int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
+                       int injury_bonus = 0)
 {
   //// This function returns event which is decided automatically 
-  
+    
+  // ALL EVENTS:
+  // penalty
+  // cornerkick
+  // offside
+  // out
+  // attempt 
+  // shotongoal 
+  // injury
+
   // Bonus checker
   // Max bonus = 100
   // Min bonus = 0
@@ -197,64 +204,53 @@ std::string event_event(int penalty_bonus = 0, int cornerkick_bonus = 0, int off
       return 0; 
     }
   
-  // Events initialization
-  char penalty[] = "penalty";
-  char cornerkick[] = "cornerkick";
-  char offside[] = "offside";
-  char out[] = "out";
-  char attempt[] = "attempt";
-  char shotongoal[] = "shotongoal";
-  char injury[] = "injury";
-  char nothing[] = "nothing";
-  
   while (true)
   {
-    int event = rand() % 997; // From 0 to 996
+    int event = rand() % 992; // From 0 to 991
     
     if (event >= 0 and event <= penalty_bonus)
       {   
-        std::string result(penalty);
-        return result;
+        //std::string penalty = "penalty";
+        return "penalty";
       }
     else if (event >= 104 and event <= 150 + cornerkick_bonus)
       {
-        std::string result(cornerkick);
-        return result;
+        //std::string cornerkick = "cornerkick";
+        return "cornerkick";
       }
     else if (event >= 251 and event <= 270 + offside_bonus)
       {
-        std::string result(offside);
-        return result;
+        //std::string offside = "offside";
+        return "offside";
       }
     else if (event >= 371 and event <= 420 + out_bonus)
       {
-        std::string result(out);
-        return result;
+        //std::string out = "out";
+        return "out";
       }
     else if (event >= 521 and event <= 660 + attempt_bonus)
       {
-        std::string result(attempt);
-        return result;
+        //std::string attempt = "attempt";
+        return "attempt";
       }
     else if (event >= 761 and event <= 790 + shotongoal_bonus)
       {
-        std::string result(shotongoal);
-        return result;
+        //std::string shotongoal = "shotongoal";
+        return "shotongoal";
       }
     else if (event >= 891 and event <= 891 + injury_bonus)
       {
-        std::string result(injury);
-        return result;
+        //std::string injury = "injury";
+        return "injury";
       }
     else
       {
-        std::string result(nothing);
         continue;
       }
   } 
 } 
   
-std::string matchopportunity_decide(int playerA_possesion, int playerB_possesion)
+std::string matchopportunity_player(int playerA_possesion, int playerB_possesion)
 {
   int total_possesion = playerA_possesion + playerB_possesion;
   int random_possesion = rand() % total_possesion;
@@ -269,50 +265,101 @@ std::string matchopportunity_decide(int playerA_possesion, int playerB_possesion
     } 
 }
 
-std::string matchopportunity(int playerA_possesion, int playerB_possesion)
+bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion)
 {
-  int random = rand() % 101;
+  std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
   
-  if (random <= 60)
+  if (player == "playerB")
+  {
+  // Call something what will returns all information about playerB, bonuses and penalties
+  int random = rand() % 101;
+    
+    // Match opportunity IS NOT generated
+    if (random <= 40 ) // + or -, depends on bonus
+    {   
+      return false;
+    }
+    
+    // Match opportunity IS generated
+    else 
     {
-      std::string player = matchopportunity_decide(playerA_possesion, playerB_possesion);
-      if (player == "playerA")
-        {
-          bool event = event_decide();
-          if (event == true)
-            {
-              return "create player events";
-            }
-          else
-            {
-              return event_event(0);
-            }
-        }
+    // Something what says: Add data to playerB stats
+    std::string event = event_auto(); // pass arg
+      if (event == "penalty")
+      {
+        event_penalty(); // pass arg
+      }
+      else if (event == "cornerkick")
+      {
+        event_cornerkick(); // pass arg
+      }
+      else if (event == "attempt")
+      {
+        event_attempt(); // pass arg
+      }
+      else if (event == "shotongoal")
+      {
+        event_shotongoal(); // pass arg
+      }
       else
-        {
-          return event_event(0);
-        }
+      {
+        // ADD LINE: update class for current match stats, VALUE: EVENT
+        return true;
+      }
     }
-  else
+  }
+  
+  else // Player A
+  {
+  // Call something what will returns all information about playerA, bonuses and penalties
+  int random = rand() % 101;
+    if (random <= 40 ) // + or -, depends on bonus
     {
-      return "nothing";
+      // Match opportunity IS NOT generated
+      return false;
     }
+    
+    // Match opportunity IS generated
+    else
+    {
+      std::string ev_type = event_type();
+      if (ev_type == "player")
+      {
+      // Runs player_events function
+      return true;
+      }
+      else
+      {
+      // Something what says: Add data to playerA stats
+      std::string event = event_auto(); // pass arg
+        
+        if (event == "penalty")
+        {
+          event_penalty(); // pass arg
+        }
+        else if (event == "cornerkick")
+        {
+          event_cornerkick(); // pass arg
+        }
+        else if (event == "attempt")
+        {
+          event_attempt(); // pass arg
+        }
+        else if (event == "shotongoal")
+        {
+          event_shotongoal(); // pass arg
+        }
+        else
+        {
+          // ADD LINE: update class for current match stats, VALUE: EVENT
+          return true;
+        }        
+      }
+    }
+   }
 }
 
 int main()
 {
- 
- srand (time(0));  // initialize random seed, HAS TO STAY TO MAKE RAND WORKS
- 
- int counter = 0;
-
-
- while (counter != 5)
-   {
-     std::cout << "---------------------" << std::endl;
-     std::cout << event_attempt() << std::endl;
-     std::cout << "---------------------" << std::endl;
-     counter += 1;
-     
-     }
+  matchopportunity_mechanics(50000,50000);
 }
