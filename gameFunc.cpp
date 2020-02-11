@@ -6,6 +6,131 @@
 #include "gameFunc.h"
 #include <stdlib.h>
 
+
+// in order to define your method for a class you need to include the name of the file which is: #include gameFunc.h from above
+
+int Simulation::percent(int value, int percentage)
+// Calculate percentage
+{
+  return value * percentage / 100;
+}
+
+
+std::string Simulation::event_injury(int serious_injury = 0, int temporary_injury = 0)
+{
+  int random = rand() % 101 ;
+
+  int injury_3 = 5 + serious_injury;
+  if (random <= 101 * injury_3 / 100)
+  {
+    // ADD LINE: suspend player for whole match
+    // ADD LINE: update class for current match stats, VALUE: SERIOUS_INJURY
+    return "serious_injury";
+  }
+  else
+  {
+    int injury_2 = 15 + temporary_injury;
+    if (random <= 101 * injury_2 / 100)
+    {
+    // ADD LINE: suspend player for some time in match, add some penalty for injured player
+    // ADD LINE: update class for current match stats, VALUE: TEMPORARY_INJURY
+    return "temporary_injury";
+    }
+    else
+    {
+    // ADD LINE: add some penalty for injured player
+    // ADD LINE: update class for current match stats, VALUE: LIGHT_INJURY
+    return "light_injury";
+    }
+
+  }
+}
+
+
+std::string Simulation::event_penalty(int attackers_effectivity = 0, int goalkeepers_effectivity = 0)
+{
+  int A_Number = attackers_effectivity + 500;
+  int G_Number = goalkeepers_effectivity + 500;
+  int random = rand() % (A_Number + G_Number);
+
+  if (random <= A_Number)
+  {
+    // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT
+    return "goal, events before + penalty"; //Something
+  }
+  else
+  {
+    // ADD LINE: update class for current match stats, VALUE: PENALTY_DEFF
+    return "shotongoal, events before + penalty"; //Something
+  }
+}
+
+std::string Simulation::event_cornerkick(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0)
+{
+  int A_Number = attackers_effectivity + 500;
+  int D_Number = deffenders_effectivity + 500;
+  int random = rand() % (A_Number + D_Number);
+
+  if (random <= A_Number)
+  {
+    int shotongoal = A_Number * 20 / 100;
+    if (random <= shotongoal)
+    {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT
+      return "shotongoal function, events before + cornerkick";
+    }
+    else
+    {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT
+      return "attempt, cornerkick, events before ";
+    }
+  }
+  else
+  {
+    int penalty = D_Number * 1 / 100 + D_Number;
+    if (random <= penalty)
+    {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF_PENALTY
+      return "penalty function, events before + cornerkick";
+    }
+    else
+    {
+      // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
+      return "cornerkick, events before";
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+*       Don't do anything here
+*/
+
 Game::Game():
     time1(0),
     time2(0),
