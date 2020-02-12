@@ -12,7 +12,7 @@ int main()
     options.MainMenu();
     */
 
-    // Start your code here Adam / the main function that runs your code
+    // Start your code here Adam / the main function that runs your code / call the function
 
 
 
