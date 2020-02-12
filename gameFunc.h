@@ -19,7 +19,7 @@ enum class GameStatus{NONE, PLAYING, WIN, LOSE, PAUSE, ABANDON, EXIT};
 
 class Simulation : public Game
 {
-    //  You just need to add the header of the function here by order that's it
+    //  You just need to add the header of the functions here by order that's it
 public:
     std::string Simulation::event_injury(int serious_injury = 0, int temporary_injury = 0);
     
