@@ -12,6 +12,15 @@ const int SIZE2 = 9;
 enum class GameStatus{NONE, PLAYING, WIN, LOSE, PAUSE, ABANDON, EXIT};
 
 
+/**
+*       Adam I forgot to update this file with your class 
+*       for declaring your methods
+*/
+
+class Simulation : public Game
+{
+    
+}
 
 class Game
 {
