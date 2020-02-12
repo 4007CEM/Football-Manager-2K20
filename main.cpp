@@ -6,9 +6,15 @@ using namespace std;
 
 int main()
 {
+    /*
     MainWindow options;
 
     options.MainMenu();
+    */
+
+    // Start your code here Adam / the main function that runs your code
+
+
 
 
     return 0;
