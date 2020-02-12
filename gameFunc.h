@@ -15,19 +15,19 @@ class Simulation : public Game
 {
 public:
     // Change to void
-    std::string Simulation::event_injury(int serious_injury = 0, int temporary_injury = 0);
-    std::string Simulation::event_penalty(int attackers_effectivity = 0, int goalkeepers_effectivity = 0);
-    std::string Simulation::event_cornerkick(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
-    std::string Simulation::event_shotongoal(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
-    std::string Simulation::event_attempt(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
+    std::string event_injury(int serious_injury = 0, int temporary_injury = 0);
+    std::string event_penalty(int attackers_effectivity = 0, int goalkeepers_effectivity = 0);
+    std::string event_cornerkick(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
+    std::string event_shotongoal(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
+    std::string event_attempt(int attackers_effectivity = 0, int deffenders_effectivity = 0, int goalkeepers_effectivity = 0);
     
-    std::string Simulation::event_type();
-    std::string Simulation::event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
+    std::string event_type();
+    std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
                            int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
                            int injury_bonus = 0); // Update after tactics will be coded
                            
-    std::string Simulation::matchopportunity_player(int playerA_possesion, int playerB_possesion);
-    bool Simulation::matchopportunity_mechanics(int playerA_possesion, int playerB_possesion); // Use for game loop
+    std::matchopportunity_player(int playerA_possesion, int playerB_possesion);
+    bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion); // Use for game loop
     
 }
 
