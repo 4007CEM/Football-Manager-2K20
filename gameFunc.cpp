@@ -212,7 +212,7 @@ std::string Simulation::event_auto(int penalty_bonus = 0, int cornerkick_bonus =
     // Min bonus = 0
 
     if (penalty_bonus > 100 || cornerkick_bonus > 100 || offside_bonus > 100
-      || out_bonus > 100  attempt_bonus > 100 || shotongoal_bonus > 100
+      || out_bonus > 100 || attempt_bonus > 100 || shotongoal_bonus > 100
       || injury_bonus > 100)
     {
         std::cerr << "Error: event_auto = Bonus can't be over 100!" << std::endl;
