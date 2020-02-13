@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1581353714 source:c:\users\songd\onedrive\desktop\dbs\main.cpp
+	<iostream>
+	"dbs.h"
+
+1581353688 c:\users\songd\onedrive\desktop\dbs\dbs.h
+	<iostream>
+
