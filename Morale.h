@@ -13,12 +13,8 @@ class FanMorale{
         int goals;
     
     public:
-        void updateFanMorale(){
-            fanMorale = (capacity / 1000) * (1 + adMult) * (weatherMult) + 100 * (leagueID + 1) + 10 * (attempts + goals);
-        }
-        int getFanMorale(){
-            return fanMorale;
-        }
+        void updateFanMorale();
+        int getFanMorale();
 }
 
 class TeamPlay{
@@ -28,13 +24,8 @@ class TeamPlay{
         int score;
 
     public:
-        void updateTeamPlay(){
-            teamPlay = (score)*100 + teamRating;
-        }
-
-        int getTeamPlay(){
-            return teamPlay;
-        }
+        void updateTeamPlay();
+        int getTeamPlay();
 }
 
 // Morale class inherits Fan TeamPlay class
@@ -43,13 +34,6 @@ class Morale: public FanMorale, public TeamPlay{
         int morale;
         
     public:
-        void updateMorale(){
-            updateFanMorale();
-            updateTeamPlay();
-            morale = (getTeamPlay() + getFanMorale()) / 2;
-
-        }
-        int getMorale(){
-            return morale;
-        }
+        void updateMorale();
+        int getMorale();
 }
