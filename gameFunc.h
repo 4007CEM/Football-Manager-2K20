@@ -26,10 +26,10 @@ public:
                            int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
                            int injury_bonus = 0); // Update after tactics will be coded
                            
-    std::matchopportunity_player(int playerA_possesion, int playerB_possesion);
+    std::string matchopportunity_player(int playerA_possesion, int playerB_possesion);
     bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion); // Use for game loop
     
-}
+};
 
 class Game
 {
