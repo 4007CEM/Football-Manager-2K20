@@ -267,7 +267,8 @@ class Simulation
         }
     }
 
-    std::string matchopportunity_player(int playerA_possesion, int playerB_possesion)
+    std::string matchopportunity_player(int playerA_possesion,
+                                        int playerB_possesion)
     {
         int total_possesion = playerA_possesion + playerB_possesion;
         int random_possesion = rand() % total_possesion;
@@ -284,7 +285,8 @@ class Simulation
 
   public:
 
-      bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion) // Use for game loop
+      bool matchopportunity_mechanics(int playerA_possesion,
+                                      int playerB_possesion) // Use for game loop
       {
           std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
 
