@@ -30,7 +30,7 @@ class TeamPlay{
 
 // Morale class inherits Fan TeamPlay class
 class Morale: public FanMorale, public TeamPlay{
-    protected:
+    private:
         int morale;
         
     public:
