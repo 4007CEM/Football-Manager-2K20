@@ -5,12 +5,60 @@
 #include <time.h>
 #include <vector> 
 
+class Rating // temp class
+{
+    private:
+    
+    int attackers_effectivity_A = 100; // of playeraA
+    int deffenders_effectivity_A = 100; // of playerA
+    int goalkeepers_effectivity_A = 100; // of playerA
+
+    int attackers_effectivity_B = 100; // of playeraB
+    int deffenders_effectivity_B = 100; // of playerB
+    int goalkeepers_effectivity_B = 100; // of playerB
+    
+    public:
+   
+    int getEffectivity(std::string player, std::string effectivity_type)
+    {
+        if (player == "B")
+        {
+            if (effectivity_type == "attacker") {return attackers_effectivity_B;}
+            if (effectivity_type == "deffender") {return deffenders_effectivity_B;}
+            if (effectivity_type == "goalkeeper") {return goalkeepers_effectivity_B;}
+        }
+        if (player == "A")
+        {
+            if (effectivity_type == "attacker") {return attackers_effectivity_A;}
+            if (effectivity_type == "deffender") {return deffenders_effectivity_A;}
+            if (effectivity_type == "goalkeeper") {return goalkeepers_effectivity_A;}
+        }
+    }
+};
+
 class Simulation
 {
     private:
-    // Change to void
-    std::string event_injury(int serious_injury = 0,
-                             int temporary_injury = 0)
+    
+    bool event_foul(int bonus_foul)
+    {
+        int random = rand() % 101 ;
+        int foul = 5 + bonus_foul;
+        
+        if (random <= 101 * foul / 100)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    // Create foul card system
+    
+    void event_injury(int serious_injury,
+                      int temporary_injury)
     {
         int random = rand() % 101 ;
         int injury_3 = 5 + serious_injury;
@@ -19,7 +67,7 @@ class Simulation
         {
             // ADD LINE: suspend player for whole match
             // ADD LINE: update class for current match stats, VALUE: SERIOUS_INJURY
-            return "serious_injury";
+            std::cout << "SERIOUS_INJURY" << std::endl;
         }
         else
         {
@@ -28,19 +76,19 @@ class Simulation
             {
                 // ADD LINE: suspend player for some time in match, add some penalty for injured player
                 // ADD LINE: update class for current match stats, VALUE: TEMPORARY_INJURY
-                return "temporary_injury";
+                std::cout << "TEMPORARY_INJURY" << std::endl;
             }
             else
             {
                 // ADD LINE: add some penalty for injured player
                 // ADD LINE: update class for current match stats, VALUE: LIGHT_INJURY
-                return "light_injury";
+                std::cout << "LIGHT_INJURY" << std::endl;
             }
         }
     }
-    // Change to void
-    std::string event_penalty(int attackers_effectivity = 0,
-                              int goalkeepers_effectivity = 0)
+ 
+    void event_penalty(int attackers_effectivity,
+                       int goalkeepers_effectivity)
     {
         int A_Number = attackers_effectivity + 500;
         int G_Number = goalkeepers_effectivity + 500;
@@ -49,18 +97,18 @@ class Simulation
         if (random <= A_Number)
         {
             // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT
-            return "goal, events before + penalty"; //Something
+            std::cout << "PENALTY_AT, GOAL_AT" << std::endl;
         }
         else
         {
             // ADD LINE: update class for current match stats, VALUE: PENALTY_DEFF
-            return "shotongoal, events before + penalty"; //Something
+            std::cout << "PENALTY_DEFF" << std::endl;
         }
     }
-    // Change to void
-    std::string event_cornerkick(int attackers_effectivity = 0,
-                                 int deffenders_effectivity = 0,
-                                 int goalkeepers_effectivity = 0)
+   
+    void event_cornerkick(int attackers_effectivity,
+                          int deffenders_effectivity,
+                          int goalkeepers_effectivity)
     {
         int A_Number = attackers_effectivity + 500;
         int D_Number = deffenders_effectivity + 500;
@@ -72,12 +120,13 @@ class Simulation
             if (random <= shotongoal)
             {
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT
-                return "shotongoal function, events before + cornerkick";
+                std::cout << "CORNERKICK_AT, event_shotongoal" << std::endl;
+                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
             }
             else
             {
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT
-                return "attempt, cornerkick, events before ";
+                std::cout << "CORNERKICK_AT, ATTEMPT_AT" << std::endl;
             }
         }
         else
@@ -86,19 +135,20 @@ class Simulation
             if (random <= penalty)
             {
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF_PENALTY
-                return "penalty function, events before + cornerkick";
+                std::cout << "CORNERKICK_DEFF_PENALTY, event_penalty" << std::endl;
+                event_penalty(attackers_effectivity, goalkeepers_effectivity);
             }
             else
             {
               // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
-              return "cornerkick, events before";
+              std::cout << "CORNERKICK_DEFF" << std::endl;
             }
         }
     }
-      // Change to void
-    std::string event_shotongoal(int attackers_effectivity = 0,
-                                 int deffenders_effectivity = 0,
-                                 int goalkeepers_effectivity = 0)
+
+    void event_shotongoal(int attackers_effectivity,
+                          int deffenders_effectivity,
+                          int goalkeepers_effectivity)
     {
         int A_Number = attackers_effectivity + 500;
         int G_Number = goalkeepers_effectivity + 500;
@@ -110,12 +160,12 @@ class Simulation
             if (random <= goal)
             {
                 // ADD LINE: update class for current match stats, VALUE: ?SHOTONGOAL_AT, GOAL_AT
-                return "AG goal, shotongoal + events before";
+                std::cout << "SHOTONGOAL_AT, GOAL_AT" << std::endl;
             }
             else
             {
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_AT
-                return "AS shotongoal + events before";
+                std::cout << "SHOTONGOAL_AT" << std::endl;
             }
         }
         else
@@ -124,20 +174,20 @@ class Simulation
             if (random <= cornerkick )
             {
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF_CORNERKICK
-                return "DC cornerkick function, events before + shotongoal";
+                std::cout << "SHOTONGOAL_DEFF_CORNERKICK, event_cornerkick" << std::endl;
+                event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
             }
             else
             {
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF
-                return "DS shotongoal + events before";
+                std::cout << "SHOTONGOAL_DEFF" << std::endl;
             }
         }
     }
 
-    // Change to void
-    std::string event_attempt(int attackers_effectivity = 0,
-                              int deffenders_effectivity = 0,
-                              int goalkeepers_effectivity = 0)
+    void event_attempt(int attackers_effectivity,
+                       int deffenders_effectivity,
+                       int goalkeepers_effectivity)
     {
         int A_Number = attackers_effectivity + 500;
         int D_Number = deffenders_effectivity + 500;
@@ -148,12 +198,12 @@ class Simulation
             int shotongoal = A_Number * 25 / 100;
             if(random <= shotongoal)
             {
-                return "AS shotongoal function";
+                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
             }
             else
             {
                 // ADD LINE: update class for current match stats, VALUE: ATTEMPT_AT
-                return "AA attempt";
+                std::cout << "ATTEMPT_AT" << std::endl;
             }
         }
         else
@@ -162,7 +212,8 @@ class Simulation
             if(random <= penalty)
             {
                 // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_PENALTY
-                return "DP penalty function, attempt+1";
+                std::cout << "ATTEMPT_DEFF_PENALTY, event_penalty" << std::endl;
+                event_penalty(attackers_effectivity, goalkeepers_effectivity);
             }
             else
             {
@@ -170,12 +221,13 @@ class Simulation
                 if(random <= cornerkick)
                 {
                     // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
-                    return "DC cornerkick function, attempt+1";
+                    std::cout << "CORNERKICK_DEFF, event_cornerkick" << std::endl;
+                    event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
                 }
                 else
                 {
                     // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF
-                    return "DA attempt deff";
+                    std::cout << "ATTEMPT_DEFF" << std::endl;
                 }
             }
         }
@@ -236,7 +288,7 @@ class Simulation
             {
                 return "penalty";
             }
-            else if (event >= 104 and event <= 150 + cornerkick_bonus)
+            else if (event >= 101 and event <= 150 + cornerkick_bonus)
             {
                 return "cornerkick";
             }
@@ -267,8 +319,7 @@ class Simulation
         }
     }
 
-    std::string matchopportunity_player(int playerA_possesion,
-                                        int playerB_possesion)
+    std::string matchopportunity_player(int playerA_possesion, int playerB_possesion)
     {
         int total_possesion = playerA_possesion + playerB_possesion;
         int random_possesion = rand() % total_possesion;
@@ -285,14 +336,25 @@ class Simulation
 
   public:
 
-      bool matchopportunity_mechanics(int playerA_possesion,
-                                      int playerB_possesion) // Use for game loop
+      bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion) // Use for game loop
       {
           std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
+          
+          //ADD LINE: Call something what will returns all information about playerB/playerA, bonuses and penalties
+          Rating Effectivity;
+          
+          int attackers_effectivity_A = Effectivity.getEffectivity("attacker", "A"); // of playeraA
+          int deffenders_effectivity_A = Effectivity.getEffectivity("deffender", "A"); // of playerA
+          int goalkeepers_effectivity_A = Effectivity.getEffectivity("goalkeeper", "A"); // of playerA
+          
+          int attackers_effectivity_B = Effectivity.getEffectivity("attacker", "B"); // of playeraB
+          int deffenders_effectivity_B = Effectivity.getEffectivity("deffender", "B"); // of playerB
+          int goalkeepers_effectivity_B = Effectivity.getEffectivity("goalkeeper", "B"); // of playerB
 
           if (player == "playerB")
           {
-              // Call something what will returns all information about playerB, bonuses and penalties
+              
+
               int random = rand() % 101;
 
               // Match opportunity IS NOT generated
@@ -301,32 +363,39 @@ class Simulation
               {
                   return false;
               }
+              
+              else if (event_foul(0) == true) // pass arg
+              {
+                  std::cout << "Player A has fouled Player B" << std::endl;
+                  // ADD LINE: create foul counter function
+                  return false;
+              }
 
               // Match opportunity IS generated
               else
               {
                   // Something what says: Add data to playerB stats
                   std::string event = event_auto(); // pass arg
-                  std::cout << "Player B: " << event << std::endl;
+                  std::cout << "Generated for Player B: " << event << std::endl;
                   if (event == "penalty")
                   {
-                      event_penalty(); // pass arg
+                      event_penalty(attackers_effectivity_B, goalkeepers_effectivity_A);
                   }
                   else if (event == "cornerkick")
                   {
-                      event_cornerkick(); // pass arg
+                      event_cornerkick(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A); 
                   }
                   else if (event == "attempt")
                   {
-                      event_attempt(); // pass arg
+                      event_attempt(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A); 
                   }
                   else if (event == "shotongoal")
                   {
-                      event_shotongoal(); // pass arg
+                      event_shotongoal(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A);
                   }
                   else if (event == "injury")
                   {
-                      event_injury(); // pass arg
+                      event_injury(0,0); // pass arg
                   }
                   else
                   {
@@ -340,46 +409,52 @@ class Simulation
           {
               // Call something what will returns all information about playerA, bonuses and penalties
               int random = rand() % 101;
+                            
               if (random <= 40 ) // + or -, depends on bonus
-              {
-                  // Match opportunity IS NOT generated
+              { // Match opportunity IS NOT generated
+                  
                   return false;
               }
-
-              // Match opportunity IS generated
-              else
+              
+              else if (event_foul(0) == true) // pass arg
               {
+                  std::cout << "Player A: Foul " << std::endl;
+                  // ADD LINE: create foul counter function
+                  return false;
+              }
+            
+              else
+              { // Match opportunity IS generated
                   std::string ev_type = event_type();   
                   if (ev_type == "player")
                   {
-                      std::cout << "Player A: Player event " << std::endl;
+                      std::cout << "Player B has fouled Player A" << std::endl;
                       // Runs player_events function
                       return true;
                   }
                   else
                   {
-                      // Something what says: Add data to playerA stats
                       std::string event = event_auto(); // pass arg
-                      std::cout << "Player A: " << event << std::endl;
+                      std::cout << "Generated for Player A: " << event << std::endl;
                       if (event == "penalty")
                       {
-                          event_penalty(); // pass arg
+                          event_penalty(attackers_effectivity_A, goalkeepers_effectivity_B);
                       }
                       else if (event == "cornerkick")
                       {
-                          event_cornerkick(); // pass arg
+                          event_cornerkick(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
                       }
                       else if (event == "attempt")
                       {
-                          event_attempt(); // pass arg
+                          event_attempt(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
                       }
                       else if (event == "shotongoal")
                       {
-                          event_shotongoal(); // pass arg
+                          event_shotongoal(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
                       }
                       else if (event == "injury")
                       {
-                          event_injury(); // pass arg
+                          event_injury(0,0); // pass arg
                       }
                       else
                       {
