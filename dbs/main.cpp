@@ -1,10 +1,15 @@
 #include <iostream>
-#include "dbs.h"
-using namespace std;
+#include "dbs2.h"
+#include "dbsSource.h"
 
 int main()
 {
-    PrintDetails();
+    // here you first put the vector with the data in it then the empty vector
+
+    Players::InitPlayers(ManchesterInfield, InitManchesterInfield);
+
+    // This print the data
+    Players::PrintPlayers(InitManchesterInfield);
 
     return 0;
 }
