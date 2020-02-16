@@ -1,5 +1,7 @@
 #include "dbs.h"
 #include <stdlib.h>
+
+
 Player players[18] =
 {
     //{"Dani Alves", 32, "British", 180, 78, 7, "GK", "GOOD", 91, 72, 67, 87, 45} Example
@@ -20,7 +22,7 @@ Player players[18] =
     {"Dani Ceballos", 22, "Spanish", 179, 70, 8, "SUB", "GOOD", 19500000, 69, 67, 79, 84, 68, 81 },
     {"H. Mkhitaryan", 30, "Armenian", 177, 75, 7, "SUB", "GOOD", 17000000, 78, 76, 78, 83, 55, 81 },
     {"Hector Bellerin", 24, "Spanish", 178, 74, 2, "SUB", "GOOD", 17500000, 92, 51, 70, 78, 76, 80 },
-    {"S. Kolasinac", 26, "Bosnian", 183, 85, 31, "SUB", "GOOD", 13500000, 75, 62, 72, 73, 75, 79  }, 
+    {"S. Kolasinac", 26, "Bosnian", 183, 85, 31, "SUB", "GOOD", 13500000, 75, 62, 72, 73, 75, 79  },
     {"S. Mustafi", 27, "German", 184, 82, 20, "SUB", "GOOD", 13000000, 60, 57, 63, 61, 77, 79 },
     {"K. Tierney", 22, "Scottish", 178, 78, 3, "SUB", "GOOD", 11000000, 88, 59, 70, 74, 71, 76 },
     {"R. Holding", 23, "British", 189, 75, 16, "SUB", "GOOD", 10000000, 60, 34, 59, 64, 77, 76 }
