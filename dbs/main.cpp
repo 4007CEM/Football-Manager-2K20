@@ -8,7 +8,7 @@ int main()
 
     Players::InitPlayers(ManchesterInfield, InitManchesterInfield);
 
-    // This print the data
+    // This prints the data
     Players::PrintPlayers(InitManchesterInfield);
 
     return 0;
