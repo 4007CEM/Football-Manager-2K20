@@ -3,41 +3,8 @@
 #include <stdio.h>
 #include <string>
 #include <time.h>
-#include <vector> 
-
-// class Match_Stats
-// {
-//     private:
-    
-//     static int penalty;
-//     static int cornerkick;
-//     static int offside;
-//     static int out;
-//     static int attempt;
-//     static int shotongoal;
-//     static int injury;
-    
-//     public:
-    
-//     upload_event("attacker", "A")
-//     penalty++;
-//     SERIOUS_INJURY
-//     TEMPORARY_INJURY
-//     LIGHT_INJURY
-//     PENALTY_AT
-//     PENALTY_DEFF
-//     GOAL_AT
-//     CORNERKICK_AT
-//     ATTEMPT_DEFF_PENALTY
-//     ATTEMPT_DEFF
-//     ATTEMPT_AT
-//     CORNERKICK_DEFF_PENALTY
-//     CORNERKICK_DEFF
-//     SHOTONGOAL_AT
-//     SHOTONGOAL_DEFF_CORNERKICK
-//     SHOTONGOAL_DEFF
-    
-// };
+#include <vector>
+#include <chrono>
 
 class Rating // temp class
 {
@@ -452,7 +419,7 @@ class Simulation
               
               else if (event_foul(0) == true) // pass arg
               {
-                  std::cout << "Player A: Foul " << std::endl;
+                  std::cout << "Player B has fouled Player A" << std::endl;
                   // ADD LINE: create foul counter function
                   return false;
               }
@@ -462,7 +429,7 @@ class Simulation
                   std::string ev_type = event_type();   
                   if (ev_type == "player")
                   {
-                      std::cout << "Player B has fouled Player A" << std::endl;
+                      std::cout << "Generated for Player A: Player events" << std::endl;
                       // Runs player_events function
                       return true;
                   }
@@ -501,21 +468,33 @@ class Simulation
       }
 };
 
+void timer(int milliseconds)
+{
+   auto start = std::chrono::steady_clock::now();
+   while (true)
+   {
+       // ADD LINE: which enables to close program
+       auto end = std::chrono::steady_clock::now();
+
+       if (std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() > milliseconds)
+       break;
+   }
+}
+
 int main()
 {
- srand (time(0));  // initialize random seed, HAS TO STAY TO MAKE RAND WORKS
- int counter = 0;
- Simulation Minute;
-// Rating myObj;
+   srand (time(0)); 
+   int counter = 0;
 
- while (counter != 95)
- {
-   std::cout << counter << " min" << std::endl;
-   Minute.matchopportunity_mechanics(500,500);     
-   counter += 1;
- }
- 
-// std::cout << myObj.getEffectivity("attacker", "B") << std::endl;
-  
-  return 0;
+   Simulation Minute;
+   
+
+   while (counter != 94)
+   {
+       std::cout << counter << " min" << std::endl;
+       Minute.matchopportunity_mechanics(500,500);
+       timer(200);
+       counter += 1;
+   }
+   return 0;
 }
