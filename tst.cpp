@@ -4,7 +4,6 @@
 #include <string>
 #include <time.h>
 #include <vector> 
-#include <chrono>
 
 class Match_Stats
 {
@@ -18,6 +17,9 @@ class Match_Stats
     static int A_shotongoal;
     static int A_injury;
     static int A_goal;
+    static int A_foul;
+    static int A_yellow;
+    static int A_red;
 
     static int B_penalty;
     static int B_cornerkick;
@@ -27,7 +29,10 @@ class Match_Stats
     static int B_shotongoal;
     static int B_injury;
     static int B_goal;
-    //add foul
+    static int B_foul;
+    static int B_yellow;
+    static int B_red;
+
     public:
     
     void stats_get()
@@ -40,6 +45,9 @@ class Match_Stats
         ", attempt: "    << A_attempt << 
         ", shotongoal: " << A_shotongoal << 
         ", injury: "     << A_injury << 
+        ", foul: "       << A_foul << 
+        ", yellow: "     << A_yellow <<
+        ", red: "        << A_red << 
         ", goal: "       << A_goal << 
         std::endl;
 
@@ -51,6 +59,9 @@ class Match_Stats
         ", attempt: "    << B_attempt << 
         ", shotongoal: " << B_shotongoal << 
         ", injury: "     << B_injury << 
+        ", foul: "       << B_foul << 
+        ", yellow: "     << B_yellow <<
+        ", red: "        << B_red << 
         ", goal: "       << B_goal << 
         std::endl;
     }
@@ -74,6 +85,12 @@ class Match_Stats
         A_injury+= 1;
         else if (event=="goal" && team=="A")
         A_goal+= 1;
+        else if (event=="foul" && team=="A")
+        A_foul++;
+        else if (event=="yellow" && team=="A")
+        A_yellow++; 
+        else if (event=="red" && team=="A")
+        A_red++; 
         
         else if (event=="penalty" && team=="B")
         B_penalty++;
@@ -90,7 +107,13 @@ class Match_Stats
         else if (event=="injury" && team=="B")
         B_injury++;
         else if (event=="goal" && team=="B")
-        B_goal++;       
+        B_goal++;
+        else if (event=="foul" && team=="B")
+        B_foul++;
+        else if (event=="yellow" && team=="B")
+        B_yellow++; 
+        else if (event=="red" && team=="B")
+        B_red++; 
     }
     void stats_reset()
     {
@@ -102,7 +125,10 @@ class Match_Stats
         A_shotongoal = 0;
         A_injury = 0;
         A_goal = 0;
-        
+        A_foul = 0;
+        A_yellow = 0;
+        A_red = 0;
+    
         B_penalty = 0;
         B_cornerkick = 0;
         B_offside = 0;
@@ -111,6 +137,10 @@ class Match_Stats
         B_shotongoal = 0;
         B_injury = 0;
         B_goal = 0;
+        B_foul = 0;
+        B_yellow = 0;
+        B_red = 0;
+   
     }
 
 //     SERIOUS_INJURY
@@ -140,6 +170,9 @@ int Match_Stats::A_attempt = 0;
 int Match_Stats::A_shotongoal = 0;
 int Match_Stats::A_injury = 0;
 int Match_Stats::A_goal = 0;
+int Match_Stats::A_foul = 0;
+int Match_Stats::A_yellow = 0;
+int Match_Stats::A_red = 0;
 
 int Match_Stats::B_penalty = 0;
 int Match_Stats::B_cornerkick = 0;
@@ -149,6 +182,9 @@ int Match_Stats::B_attempt = 0;
 int Match_Stats::B_shotongoal = 0;
 int Match_Stats::B_injury = 0;
 int Match_Stats::B_goal = 0;
+int Match_Stats::B_foul = 0;
+int Match_Stats::B_yellow = 0;
+int Match_Stats::B_red = 0;
 
 class Rating // temp class
 {
@@ -211,12 +247,30 @@ class Simulation
         
         if (random <= 101 * foul / 100)
         {
-            return true;
+            Stats.stats_upload("foul",team);
+            if (random <= 101 * 70 / 100)
+            {
+                //ADD LINE: name = get random name from team
+                //ADD LINE: pass name to Match_Stats class
+                return true;
+            }
+            else if(random <= 101 * 90 / 100) 
+            {
+                Stats.stats_upload("yellow",team);
+                //ADD LINE: name = get random name from team
+                //ADD LINE: pass name to Match_Stats class
+                return true;
+            }
+            else
+            {
+                Stats.stats_upload("red",team);
+                //ADD LINE: name = get random name from team
+                //ADD LINE: pass name to Match_Stats class
+                return true;
+            }
         }
         else
-        {
             return false;
-        }
     }
     
     // Create foul card system
@@ -560,7 +614,6 @@ class Simulation
               else if (event_foul(0,playerA) == true) // pass arg
               {
                   std::cout << "Player A has fouled Player B" << std::endl;
-                  // ADD LINE: create foul counter function
                   return false;
               }
 
@@ -613,7 +666,6 @@ class Simulation
               else if (event_foul(0,playerB) == true) // pass arg
               {
                   std::cout << "Player B has fouled Player A" << std::endl;
-                  // ADD LINE: create foul counter function
                   return false;
               }
             
