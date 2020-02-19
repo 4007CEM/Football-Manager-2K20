@@ -3,8 +3,152 @@
 #include <stdio.h>
 #include <string>
 #include <time.h>
-#include <vector>
+#include <vector> 
 #include <chrono>
+
+class Match_Stats
+{
+    private:
+    
+    static int A_penalty;
+    static int A_cornerkick;
+    static int A_offside;
+    static int A_out;
+    static int A_attempt;
+    static int A_shotongoal;
+    static int A_injury;
+    static int A_goal;
+
+    static int B_penalty;
+    static int B_cornerkick;
+    static int B_offside;
+    static int B_out;
+    static int B_attempt;
+    static int B_shotongoal;
+    static int B_injury;
+    static int B_goal;
+    //add foul
+    public:
+    
+    void stats_get()
+    {
+        std::cout << "Player A:"
+        "  penalty: "    << A_penalty << 
+        ", cornerkick: " << A_cornerkick << 
+        ", offside: "    << A_offside << 
+        ", out: "        << A_out << 
+        ", attempt: "    << A_attempt << 
+        ", shotongoal: " << A_shotongoal << 
+        ", injury: "     << A_injury << 
+        ", goal: "       << A_goal << 
+        std::endl;
+
+        std::cout << "Player B:"
+        "  penalty: "    << B_penalty << 
+        ", cornerkick: " << B_cornerkick << 
+        ", offside: "    << B_offside << 
+        ", out: "        << B_out << 
+        ", attempt: "    << B_attempt << 
+        ", shotongoal: " << B_shotongoal << 
+        ", injury: "     << B_injury << 
+        ", goal: "       << B_goal << 
+        std::endl;
+    }
+
+    void stats_upload(std::string event, std::string team)
+    {
+        //ADD LINE: pass event,team to comment class or pass it from Simulation class
+        if (event=="penalty" && team=="A")
+        A_penalty+= 1;
+        else if (event=="cornerkick" && team=="A")
+        A_cornerkick+= 1;
+        else if (event=="offside" && team=="A")
+        A_offside+= 1;
+        else if (event=="out" && team=="A")
+        A_out+= 1;
+        else if (event=="attempt" && team=="A")
+        A_attempt+= 1;
+        else if (event=="shotongoal" && team=="A")
+        A_shotongoal+= 1;
+        else if (event=="injury" && team=="A")
+        A_injury+= 1;
+        else if (event=="goal" && team=="A")
+        A_goal+= 1;
+        
+        else if (event=="penalty" && team=="B")
+        B_penalty++;
+        else if (event=="cornerkick" && team=="B")
+        B_cornerkick++;
+        else if (event=="offside" && team=="B")
+        B_offside++;
+        else if (event=="out" && team=="B")
+        B_out++;
+        else if (event=="attempt" && team=="B")
+        B_attempt++;
+        else if (event=="shotongoal" && team=="B")
+        B_shotongoal++;
+        else if (event=="injury" && team=="B")
+        B_injury++;
+        else if (event=="goal" && team=="B")
+        B_goal++;       
+    }
+    void stats_reset()
+    {
+        A_penalty = 0;
+        A_cornerkick = 0;
+        A_offside = 0;
+        A_out = 0;
+        A_attempt = 0;
+        A_shotongoal = 0;
+        A_injury = 0;
+        A_goal = 0;
+        
+        B_penalty = 0;
+        B_cornerkick = 0;
+        B_offside = 0;
+        B_out = 0;
+        B_attempt = 0;
+        B_shotongoal = 0;
+        B_injury = 0;
+        B_goal = 0;
+    }
+
+//     SERIOUS_INJURY
+//     TEMPORARY_INJURY
+//     LIGHT_INJURY
+//     PENALTY_AT
+//     PENALTY_DEFF
+//     GOAL_AT
+//     CORNERKICK_AT
+//     ATTEMPT_DEFF_PENALTY
+//     ATTEMPT_DEFF
+//     ATTEMPT_AT
+//     ATTEMPT_DEFF_CORNERKICK
+//     CORNERKICK_DEFF_PENALTY
+//     CORNERKICK_DEFF
+//     SHOTONGOAL_AT
+//     SHOTONGOAL_DEFF_CORNERKICK
+//     SHOTONGOAL_DEFF
+    
+};
+
+int Match_Stats::A_penalty = 0;
+int Match_Stats::A_cornerkick = 0;
+int Match_Stats::A_offside = 0;
+int Match_Stats::A_out = 0;
+int Match_Stats::A_attempt = 0;
+int Match_Stats::A_shotongoal = 0;
+int Match_Stats::A_injury = 0;
+int Match_Stats::A_goal = 0;
+
+int Match_Stats::B_penalty = 0;
+int Match_Stats::B_cornerkick = 0;
+int Match_Stats::B_offside = 0;
+int Match_Stats::B_out = 0;
+int Match_Stats::B_attempt = 0;
+int Match_Stats::B_shotongoal = 0;
+int Match_Stats::B_injury = 0;
+int Match_Stats::B_goal = 0;
 
 class Rating // temp class
 {
@@ -40,9 +184,28 @@ class Rating // temp class
 class Simulation
 {
     private:
+      
+    Match_Stats Stats;
     
-    bool event_foul(int bonus_foul)
+//     std::string event_player()
+//     {
+//         private:
+//         int random = rand() % 1;
+//         std::string text_header;
+//         std::array <std::string> options[3]; 
+        
+//         public:
+        
+//         std::string pl_event()
+//         {
+//             for (i,options,i++)
+//             return text_header
+//         }
+//     }
+    
+    bool event_foul(int bonus_foul,std::string team)
     {
+        
         int random = rand() % 101 ;
         int foul = 5 + bonus_foul;
         
@@ -59,13 +222,15 @@ class Simulation
     // Create foul card system
     
     void event_injury(int serious_injury,
-                      int temporary_injury)
+                      int temporary_injury,
+                      std::string team)
     {
         int random = rand() % 101 ;
         int injury_3 = 5 + serious_injury;
 
         if (random <= 101 * injury_3 / 100)
         {
+            Stats.stats_upload("injury",team);
             // ADD LINE: suspend player for whole match
             // ADD LINE: update class for current match stats, VALUE: SERIOUS_INJURY
             std::cout << "SERIOUS_INJURY" << std::endl;
@@ -75,12 +240,14 @@ class Simulation
             int injury_2 = 15 + temporary_injury;
             if (random <= 101 * injury_2 / 100)
             {
+                Stats.stats_upload("injury",team);
                 // ADD LINE: suspend player for some time in match, add some penalty for injured player
                 // ADD LINE: update class for current match stats, VALUE: TEMPORARY_INJURY
                 std::cout << "TEMPORARY_INJURY" << std::endl;
             }
             else
             {
+                Stats.stats_upload("injury",team);
                 // ADD LINE: add some penalty for injured player
                 // ADD LINE: update class for current match stats, VALUE: LIGHT_INJURY
                 std::cout << "LIGHT_INJURY" << std::endl;
@@ -89,7 +256,8 @@ class Simulation
     }
  
     void event_penalty(int attackers_effectivity,
-                       int goalkeepers_effectivity)
+                       int goalkeepers_effectivity,
+                       std::string team)
     {
         int A_Number = attackers_effectivity + 500;
         int G_Number = goalkeepers_effectivity + 500;
@@ -97,11 +265,14 @@ class Simulation
 
         if (random <= A_Number)
         {
+            Stats.stats_upload("penalty",team);
+            Stats.stats_upload("goal",team);
             // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT
             std::cout << "PENALTY_AT, GOAL_AT" << std::endl;
         }
         else
         {
+            Stats.stats_upload("penalty",team);
             // ADD LINE: update class for current match stats, VALUE: PENALTY_DEFF
             std::cout << "PENALTY_DEFF" << std::endl;
         }
@@ -109,7 +280,8 @@ class Simulation
    
     void event_cornerkick(int attackers_effectivity,
                           int deffenders_effectivity,
-                          int goalkeepers_effectivity)
+                          int goalkeepers_effectivity,
+                          std::string team)
     {
         int A_Number = attackers_effectivity + 500;
         int D_Number = deffenders_effectivity + 500;
@@ -120,12 +292,15 @@ class Simulation
             int shotongoal = A_Number * 20 / 100;
             if (random <= shotongoal)
             {
+                Stats.stats_upload("cornerkick",team);
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT
                 std::cout << "CORNERKICK_AT, event_shotongoal" << std::endl;
-                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
+                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
-            {
+            {   
+                Stats.stats_upload("cornerkick",team);
+                Stats.stats_upload("attempt",team);
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT
                 std::cout << "CORNERKICK_AT, ATTEMPT_AT" << std::endl;
             }
@@ -135,12 +310,14 @@ class Simulation
             int penalty = D_Number * 1 / 100 + D_Number;
             if (random <= penalty)
             {
+                Stats.stats_upload("cornerkick",team);
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF_PENALTY
                 std::cout << "CORNERKICK_DEFF_PENALTY, event_penalty" << std::endl;
-                event_penalty(attackers_effectivity, goalkeepers_effectivity);
+                event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
+              Stats.stats_upload("cornerkick",team);
               // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
               std::cout << "CORNERKICK_DEFF" << std::endl;
             }
@@ -149,7 +326,8 @@ class Simulation
 
     void event_shotongoal(int attackers_effectivity,
                           int deffenders_effectivity,
-                          int goalkeepers_effectivity)
+                          int goalkeepers_effectivity,
+                          std::string team)
     {
         int A_Number = attackers_effectivity + 500;
         int G_Number = goalkeepers_effectivity + 500;
@@ -160,11 +338,14 @@ class Simulation
             int goal = A_Number * 25 / 100;
             if (random <= goal)
             {
+                Stats.stats_upload("shotongoal",team);
+                Stats.stats_upload("goal",team);
                 // ADD LINE: update class for current match stats, VALUE: ?SHOTONGOAL_AT, GOAL_AT
                 std::cout << "SHOTONGOAL_AT, GOAL_AT" << std::endl;
             }
             else
             {
+                Stats.stats_upload("shotongoal",team);
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_AT
                 std::cout << "SHOTONGOAL_AT" << std::endl;
             }
@@ -174,12 +355,14 @@ class Simulation
             int cornerkick = G_Number * 10 / 100 + G_Number;
             if (random <= cornerkick )
             {
+                Stats.stats_upload("shotongoal",team);
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF_CORNERKICK
                 std::cout << "SHOTONGOAL_DEFF_CORNERKICK, event_cornerkick" << std::endl;
-                event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
+                event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
+                Stats.stats_upload("shotongoal",team);
                 // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF
                 std::cout << "SHOTONGOAL_DEFF" << std::endl;
             }
@@ -188,7 +371,8 @@ class Simulation
 
     void event_attempt(int attackers_effectivity,
                        int deffenders_effectivity,
-                       int goalkeepers_effectivity)
+                       int goalkeepers_effectivity,
+                       std::string team)
     {
         int A_Number = attackers_effectivity + 500;
         int D_Number = deffenders_effectivity + 500;
@@ -199,10 +383,11 @@ class Simulation
             int shotongoal = A_Number * 25 / 100;
             if(random <= shotongoal)
             {
-                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
+                event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
+                Stats.stats_upload("attempt",team);
                 // ADD LINE: update class for current match stats, VALUE: ATTEMPT_AT
                 std::cout << "ATTEMPT_AT" << std::endl;
             }
@@ -212,21 +397,24 @@ class Simulation
             int penalty = D_Number * 1 / 100 + D_Number;
             if(random <= penalty)
             {
+                Stats.stats_upload("attempt",team);
                 // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_PENALTY
                 std::cout << "ATTEMPT_DEFF_PENALTY, event_penalty" << std::endl;
-                event_penalty(attackers_effectivity, goalkeepers_effectivity);
+                event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
                 int cornerkick = D_Number * 10 / 100 + penalty;
                 if(random <= cornerkick)
-                {
-                    // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
-                    std::cout << "CORNERKICK_DEFF, event_cornerkick" << std::endl;
-                    event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity);
+                {   
+                    Stats.stats_upload("attempt",team);
+                    // NOPE ?? ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_CORNERKICK
+                    std::cout << " event_cornerkick" << std::endl;
+                    event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
                 }
                 else
                 {
+                    Stats.stats_upload("attempt",team);
                     // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF
                     std::cout << "ATTEMPT_DEFF" << std::endl;
                 }
@@ -247,6 +435,7 @@ class Simulation
             return "auto";
         }
     }
+    
     std::string event_auto(int penalty_bonus = 0, int cornerkick_bonus = 0, int offside_bonus = 0,
                            int out_bonus = 0, int attempt_bonus = 0,int shotongoal_bonus = 0,
                            int injury_bonus = 0)
@@ -339,6 +528,9 @@ class Simulation
 
       bool matchopportunity_mechanics(int playerA_possesion, int playerB_possesion) // Use for game loop
       {
+          std::string playerA = "A";
+          std::string playerB = "B";
+          
           std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
           
           //ADD LINE: Call something what will returns all information about playerB/playerA, bonuses and penalties
@@ -365,7 +557,7 @@ class Simulation
                   return false;
               }
               
-              else if (event_foul(0) == true) // pass arg
+              else if (event_foul(0,playerA) == true) // pass arg
               {
                   std::cout << "Player A has fouled Player B" << std::endl;
                   // ADD LINE: create foul counter function
@@ -380,26 +572,27 @@ class Simulation
                   std::cout << "Generated for Player B: " << event << std::endl;
                   if (event == "penalty")
                   {
-                      event_penalty(attackers_effectivity_B, goalkeepers_effectivity_A);
+                      event_penalty(attackers_effectivity_B, goalkeepers_effectivity_A,playerB);
                   }
                   else if (event == "cornerkick")
                   {
-                      event_cornerkick(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A); 
+                      event_cornerkick(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A,playerB); 
                   }
                   else if (event == "attempt")
                   {
-                      event_attempt(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A); 
+                      event_attempt(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A,playerB); 
                   }
                   else if (event == "shotongoal")
                   {
-                      event_shotongoal(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A);
+                      event_shotongoal(attackers_effectivity_B, deffenders_effectivity_A, goalkeepers_effectivity_A,playerB);
                   }
                   else if (event == "injury")
                   {
-                      event_injury(0,0); // pass arg
+                      event_injury(0,0,playerB); // pass arg
                   }
                   else
                   {
+                      Stats.stats_upload(event,playerB);
                       // ADD LINE: update class for current match stats, VALUE: EVENT
                       return true;
                   }
@@ -417,7 +610,7 @@ class Simulation
                   return false;
               }
               
-              else if (event_foul(0) == true) // pass arg
+              else if (event_foul(0,playerB) == true) // pass arg
               {
                   std::cout << "Player B has fouled Player A" << std::endl;
                   // ADD LINE: create foul counter function
@@ -429,7 +622,7 @@ class Simulation
                   std::string ev_type = event_type();   
                   if (ev_type == "player")
                   {
-                      std::cout << "Generated for Player A: Player events" << std::endl;
+                      std::cout << "Player event" << std::endl;
                       // Runs player_events function
                       return true;
                   }
@@ -439,26 +632,27 @@ class Simulation
                       std::cout << "Generated for Player A: " << event << std::endl;
                       if (event == "penalty")
                       {
-                          event_penalty(attackers_effectivity_A, goalkeepers_effectivity_B);
+                          event_penalty(attackers_effectivity_A, goalkeepers_effectivity_B,playerA);
                       }
                       else if (event == "cornerkick")
                       {
-                          event_cornerkick(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
+                          event_cornerkick(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B,playerA);
                       }
                       else if (event == "attempt")
                       {
-                          event_attempt(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
+                          event_attempt(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B,playerA);
                       }
                       else if (event == "shotongoal")
                       {
-                          event_shotongoal(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B);
+                          event_shotongoal(attackers_effectivity_A, deffenders_effectivity_B, goalkeepers_effectivity_B,playerA);
                       }
                       else if (event == "injury")
                       {
-                          event_injury(0,0); // pass arg
+                          event_injury(0,0,playerA); // pass arg
                       }
                       else
                       {
+                          Stats.stats_upload(event,playerA);
                           // ADD LINE: update class for current match stats, VALUE: EVENT
                           return true;
                       }
@@ -487,14 +681,16 @@ int main()
    int counter = 0;
 
    Simulation Minute;
-   
+   Match_Stats Stats;
 
    while (counter != 94)
    {
        std::cout << counter << " min" << std::endl;
        Minute.matchopportunity_mechanics(500,500);
-       timer(200);
+       //timer(200);
        counter += 1;
    }
-   return 0;
+  
+    Stats.stats_get();
+    return 0;
 }
