@@ -11,6 +11,14 @@ Private:
     int attackingNo;
     int midfieldNo;
     int defenseNo;
+    int penalty-bonus;
+    int cornerkick-bonus;
+    int offside-bonus;
+    int out-bonus;
+    int attempt-bonus;
+    int shotongoal-bonus;
+    int injury-bonus;
+    int foul-bonus;
 
     array<string> tactics={"aggressive","balanced","defensive","counter","possesion","random"};
     //array as follows: penalty, cornerkick, offisde, out, attempt, shotongoal, injury, foul
