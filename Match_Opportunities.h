@@ -528,7 +528,7 @@ class Match_Opportunities
       {
            
           std::string playerA = "A";
-          std::string playerB = "BC"; // WTF?????
+          std::string playerB = "B"; // WTF?????
           
           std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
           
