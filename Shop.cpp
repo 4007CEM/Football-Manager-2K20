@@ -14,7 +14,7 @@ public:
         earnings = round(earnings);
         for(int i = 0; i < forSale.size(); i++)
         {
-            forSale[i] = a;
+            forSale[i] = 0;
         }
     }
 
@@ -23,13 +23,18 @@ public:
         return forSale;
     }
 
+    float get_earnings()
+    {
+        return earnings
+    }
+
     void sell_player(Players a)
     {
         earnings += a.value;
-        a.squad = "None";
+        reference
     }
 
-    train_player(Players a, int choice)
+    void train_player(Players a, int choice)
     {
         if(choice == 0)
         {
