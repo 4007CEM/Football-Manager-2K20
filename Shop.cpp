@@ -1,11 +1,13 @@
 #include<iostream>
+#include<algorithms>
+#include<Vector>
 #include "dbsSource.cpp"
 #include "dbsSource.h"
 
 class Shop
 {
 private:
-    array<Players,10> forSale;
+    vector<Players> forSale;
     float earnings;
 
 public:
@@ -25,14 +27,21 @@ public:
 
     float get_earnings()
     {
-        return earnings
+        return earnings;
     }
 
-    void sell_player(Players a)
+    void sell_player(Players a,Squad aSquad)
     {
         earnings += a.value;
-        // use referenceif()? 
-        // intend on removing player from team if sold
+        for(int i=0;i<aSquad.inField.size();i++)
+        {
+            if(inField[i] == a)
+            {
+                inField.erase(inField.begin() + i);
+                forSale.push_back(a);
+                break;
+            }
+        }
     }
 
     void train_player(Players a, int choice)
