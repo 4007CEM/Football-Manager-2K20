@@ -7,8 +7,8 @@
 #include <array>
 #include <map>
 
-#include "match_stats.h"
-#include "rating.h"
+#include "Match_Stats.h"
+#include "Rating.h"
 // rename file to match opportunities
 // split classes to files
 
