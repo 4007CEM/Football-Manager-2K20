@@ -409,7 +409,6 @@ class Match_Opportunities
 
       Stats.stats_set("player_event_question",question);   
       Stats.stats_set("player_event","EVENT"); 
-      std::cout <<"From player_event method "<< Stats.stats_get("player_event") << std::endl;
     }  
     
     void event_answer(std::string event, std::string answer, std::string player_name)
@@ -610,7 +609,6 @@ class Match_Opportunities
                   if (ev_type == "player")
                   {
                       event_player();
-                      std::cout <<"From matchopportunity_mechanics method "<< Stats.stats_get("player_event") << std::endl;
                       return true;
                   }
                   else
