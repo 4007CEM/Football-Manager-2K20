@@ -33,10 +33,8 @@ int main()
    {
        
        std::cout << counter << " min" << std::endl;
-       std::cout << "PRED "<<Stats.stats_get("player_event") << std::endl;
-
        Minute.matchopportunity_mechanics(500,500);
-       std::cout <<"PO "<< Stats.stats_get("player_event") << std::endl;
+
        if (Stats.stats_get("player_event") == "EVENT")
        {
            std::cout << Stats.stats_get("player_event") << std::endl;
