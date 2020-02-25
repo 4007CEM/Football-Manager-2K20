@@ -1,6 +1,6 @@
 #include<iostream>
-//#include "dbsSource.cpp"
-//#include "dbsSource.h"
+#include "dbsSource.cpp"
+#include "dbsSource.h"
 
 class Shop
 {
@@ -14,7 +14,7 @@ public:
         earnings = round(earnings);
         for(int i = 0; i < forSale.size(); i++)
         {
-            forSale[i] = 0;
+            forSale[i] = 0;//fill forSale array
         }
     }
 
@@ -31,7 +31,8 @@ public:
     void sell_player(Players a)
     {
         earnings += a.value;
-        reference
+        // use referenceif()? 
+        // intend on removing player from team if sold
     }
 
     void train_player(Players a, int choice)
