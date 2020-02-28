@@ -17,6 +17,7 @@ class Commentator
     { "PENALTY_AT", { "Comment1", "Comment2", "Comment3" } },
     { "PENALTY_DEFF", { "Comment1", "Comment2", "Comment3" } },
     { "GOAL_AT", { "Comment1", "Comment2", "Comment3" } },
+    { "GOAL_PENALTY", { "Comment1", "Comment2", "Comment3" } },
     { "CORNERKICK_AT", { "Comment1", "Comment2", "Comment3" } },
     { "ATTEMPT_DEFF_PENALTY", { "Comment1", "Comment2", "Comment3" } },
     { "ATTEMPT_DEFF", { "Comment1", "Comment2", "Comment3" } },
@@ -36,7 +37,11 @@ class Commentator
     { "DEFF_BONUS_STYLE", { "Comment1", "Comment2", "Comment3" } },
     { "NO_BONUS_STYLE", { "Comment@@@1", "Comment@@@2", "Comment@@@3" } },
     { "GOAL_PENALTY_STYLE", { "Comment1", "Comment2", "Comment3" } },
-    { "ACTION_NOTHING", { "Comment1", "Comment2", "Comment3" } }
+    { "ACTION_NOTHING", { "Comment1", "Comment2", "Comment3" } },
+    
+    { "FOUL", { "Comment1", "Comment2", "Comment3" } },
+    { "FOUL_YELLOW", { "Comment1", "Comment2", "Comment3" } },
+    { "FOUL_RED", { "Comment1", "Comment2", "Comment3" } }
     }; //ADD from last options in player event
    
     public:
