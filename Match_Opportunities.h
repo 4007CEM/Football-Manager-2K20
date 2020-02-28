@@ -9,11 +9,14 @@
 
 #include "Match_Stats.h"
 #include "Rating.h"
+#include "Commentator.h"
 // rename file to match opportunities
 // split classes to files
 
 Match_Stats Stats;
 Rating Effectivity;
+Commentator Comment;
+std::string com;
 
 class Match_Opportunities
 {
@@ -31,7 +34,9 @@ class Match_Opportunities
             if (random <= 101 * 70 / 100)
             {
                 //ADD LINE: name = get random name from team
-                //ADD LINE: pass name to Match_Stats class
+                //ADD LINE: pass name to Match_Stats class                        
+                com = Comment.comment_get("FOUL");
+                Stats.stats_set("comment",com);
                 return true;
             }
             else if(random <= 101 * 90 / 100) 
@@ -39,6 +44,8 @@ class Match_Opportunities
                 Stats.stats_upload("yellow",team);
                 //ADD LINE: name = get random name from team
                 //ADD LINE: pass name to Match_Stats class
+                com = Comment.comment_get("FOUL_YELLOW");
+                Stats.stats_set("comment",com);
                 return true;
             }
             else
@@ -46,6 +53,8 @@ class Match_Opportunities
                 Stats.stats_upload("red",team);
                 //ADD LINE: name = get random name from team
                 //ADD LINE: pass name to Match_Stats class
+                com = Comment.comment_get("FOUL_RED");
+                Stats.stats_set("comment",com);
                 return true;
             }
         }
@@ -65,7 +74,8 @@ class Match_Opportunities
         {
             Stats.stats_upload("injury",team);
             // ADD LINE: suspend player for whole match
-            // ADD LINE: update class for current match stats, VALUE: SERIOUS_INJURY
+            com = Comment.comment_get("SERIOUS_INJURY");
+            Stats.stats_set("comment",com);
         }
         else
         {
@@ -74,13 +84,15 @@ class Match_Opportunities
             {
                 Stats.stats_upload("injury",team);
                 // ADD LINE: suspend player for some time in match, add some penalty for injured player
-                // ADD LINE: update class for current match stats, VALUE: TEMPORARY_INJURY
+            com = Comment.comment_get("TEMPORARY_INJURY");
+            Stats.stats_set("comment",com);
             }
             else
             {
                 Stats.stats_upload("injury",team);
                 // ADD LINE: add some penalty for injured player
-                // ADD LINE: update class for current match stats, VALUE: LIGHT_INJURY
+            com = Comment.comment_get("LIGHT_INJURY");
+            Stats.stats_set("comment",com);
             }
         }
     }
@@ -97,12 +109,15 @@ class Match_Opportunities
         {
             Stats.stats_upload("penalty",team);
             Stats.stats_upload("goal",team);
-            // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT
+            // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT  NOT SURE
+            com = Comment.comment_get("GOAL_PENALTY");
+            Stats.stats_set("comment",com);
         }
         else
         {
             Stats.stats_upload("penalty",team);
-            // ADD LINE: update class for current match stats, VALUE: PENALTY_DEFF
+            com = Comment.comment_get("PENALTY_DEFF");
+            Stats.stats_set("comment",com);
         }
     }
    
@@ -121,14 +136,16 @@ class Match_Opportunities
             if (random <= shotongoal)
             {
                 Stats.stats_upload("cornerkick",team);
-                // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT
+                com = Comment.comment_get("CORNERKICK_AT");
+                Stats.stats_set("comment",com);
                 event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {   
                 Stats.stats_upload("cornerkick",team);
                 Stats.stats_upload("attempt",team);
-                // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT
+                
+                // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT 
             }
         }
         else
@@ -137,13 +154,15 @@ class Match_Opportunities
             if (random <= penalty)
             {
                 Stats.stats_upload("cornerkick",team);
-                // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF_PENALTY
+                com = Comment.comment_get("CORNERKICK_DEFF_PENALTY");
+                Stats.stats_set("comment",com);                
                 event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
               Stats.stats_upload("cornerkick",team);
-              // ADD LINE: update class for current match stats, VALUE: CORNERKICK_DEFF
+              com = Comment.comment_get("CORNERKICK_DEFF");
+              Stats.stats_set("comment",com);  
             }
         }
     }
@@ -169,7 +188,8 @@ class Match_Opportunities
             else
             {
                 Stats.stats_upload("shotongoal",team);
-                // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_AT
+                com = Comment.comment_get("SHOTONGOAL_AT");
+                Stats.stats_set("comment",com);
             }
         }
         else
@@ -178,13 +198,15 @@ class Match_Opportunities
             if (random <= cornerkick )
             {
                 Stats.stats_upload("shotongoal",team);
-                // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF_CORNERKICK
+                com = Comment.comment_get("SHOTONGOAL_DEFF_CORNERKICK");
+                Stats.stats_set("comment",com);
                 event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
                 Stats.stats_upload("shotongoal",team);
-                // ADD LINE: update class for current match stats, VALUE: SHOTONGOAL_DEFF
+                com = Comment.comment_get("SHOTONGOAL_DEFF");
+                Stats.stats_set("comment",com);
             }
         }
     }
@@ -208,7 +230,8 @@ class Match_Opportunities
             else
             {
                 Stats.stats_upload("attempt",team);
-                // ADD LINE: update class for current match stats, VALUE: ATTEMPT_AT
+                com = Comment.comment_get("ATTEMPT_AT");
+                Stats.stats_set("comment",com);
             }
         }
         else
@@ -217,7 +240,8 @@ class Match_Opportunities
             if(random <= penalty)
             {
                 Stats.stats_upload("attempt",team);
-                // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_PENALTY
+                com = Comment.comment_get("ATTEMPT_DEFF_PENALTY");
+                Stats.stats_set("comment",com);
                 event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
@@ -232,7 +256,8 @@ class Match_Opportunities
                 else
                 {
                     Stats.stats_upload("attempt",team);
-                    // ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF
+                    com = Comment.comment_get("ATTEMPT_DEFF");
+                    Stats.stats_set("comment",com);
                 }
             }
         }
@@ -248,7 +273,7 @@ class Match_Opportunities
         }
         else
         {
-            return "player"; //auto
+            return "auto"; //auto
         }
     }
     
@@ -409,6 +434,7 @@ class Match_Opportunities
 
       Stats.stats_set("player_event_question",question);   
       Stats.stats_set("player_event","EVENT"); 
+      std::cout <<"From player_event method "<< Stats.stats_get("player_event") << std::endl;
     }  
     
     void event_answer(std::string event, std::string answer, std::string player_name)
@@ -550,6 +576,7 @@ class Match_Opportunities
               // Match opportunity IS NOT generated
 
               if (random <= 40 ) // + or -, depends on bonus
+                  // ADD LINE: update commentator class with no value     
                   return false;
 
               
@@ -596,7 +623,8 @@ class Match_Opportunities
               int random = rand() % 101;
                             
               if (random <= 40 ) // + or -, depends on bonus
-              // Match opportunity IS NOT generated               
+              // Match opportunity IS NOT generated    
+              // // ADD LINE: update commentator class with no value           
                   return false;
               
               else if (event_foul(0,playerB) == true) // pass arg
@@ -609,6 +637,7 @@ class Match_Opportunities
                   if (ev_type == "player")
                   {
                       event_player();
+                      std::cout <<"From matchopportunity_mechanics method "<< Stats.stats_get("player_event") << std::endl;
                       return true;
                   }
                   else
