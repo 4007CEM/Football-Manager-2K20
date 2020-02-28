@@ -6,6 +6,7 @@
 
 
 
+
 class Players
 {
 private:
@@ -44,6 +45,8 @@ public:
 
     static void PrintPlayers(std::vector<Players> &players);
 
+    static void Fieldskill(std::vector<Players> &players);
+
 };
 
 
@@ -58,18 +61,6 @@ public:
 
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif // DBS_H_INCLUDED

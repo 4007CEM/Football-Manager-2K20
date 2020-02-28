@@ -1,7 +1,9 @@
 #include "dbsSource.h"
 #include <iostream>
 #include <iomanip>
-
+#include <string>
+#include <vector>
+#include <map>
 
 Players::Players(const std::string &name, int age, const std::string &nationality, int height, double weight, int number, std::string position,
                  std::string morale, int value, int pace, int shooting, int passing, int dribbling, int defending, int physical, int reflexes,
@@ -48,6 +50,128 @@ void Players::PrintPlayers(std::vector<Players> &players)
         std::cout<< std::setw(22) << players[i].name << std::setw(22) << players[i].position << '\n';
     }
 }
+
+
+void Players::Fieldskill(std::vector<Players> &players)
+{
+    std::vector<std::string> attacking = {"LS", "CS", "CF", "RS", "LW", "RW", "ST", "LM", "RM"};
+    std::vector<std::string> midfielding = {"LAM", "CAM", "RAM", "LCM", "CM", "RCM", "LDM", "CDM", "RDM"};
+    std::vector<std::string> defending = {"LWB", "CDM", "RWB", "LB", "LCB", "CB", "RCB", "RB", "SW"};
+    std::string goalkeeper = "GK";
+
+    std::vector<Players> attackingplayers = {};
+    std::vector<Players> midfieldingplayers = {};
+    std::vector<Players> defendingplayers = {};
+    std::vector<Players> goalkeeperplayer = {};
+
+    int attacking_effectivity = 0;
+    int midfielding_effectivity = 0;
+    int defending_effectivity = 0;
+    int goalkeeping_effectivity = 0;
+    std::map<int , std::string> sorted_players;
+    int key = 1;
+
+
+    for(unsigned int i = 0; i < players.size(); i++)
+    {
+        //Attacking
+        for (unsigned int j = 0; j < attacking.size(); j++) 
+        {
+            std::string pos = attacking[j];
+            if (players[i].position == pos)
+            {
+                int fieldskill = (players[i].pace*0.25) + (players[i].dribbling*0.25) + (players[i].shooting*0.25) + 
+                (players[i].physical*0.10) + (players[i].defending*0.05) + (players[i].passing*0.10);
+                
+                attacking_effectivity += fieldskill;
+
+                attackingplayers.push_back(players[i]);
+            }
+        }
+        //Midfielding
+        for (unsigned int j = 0; j < midfielding.size(); j++) 
+        {
+            std::string pos = midfielding[j];
+            if (players[i].position == pos) 
+            {
+             int fieldskill = (players[i].pace*0.10) + (players[i].dribbling*0.20) + (players[i].shooting*0.20) + 
+             (players[i].physical*0.10) + (players[i].defending*0.20) + (players[i].passing*0.20);
+
+             midfielding_effectivity += fieldskill;
+
+             midfieldingplayers.push_back(players[i]);
+
+                
+        }
+        }
+        // //Defending
+        for (unsigned int j = 0; j < defending.size(); j++) 
+        {
+            std::string pos = defending[j];
+            if (players[i].position == pos) 
+            {
+            int fieldskill = (players[i].pace*0.10) + (players[i].dribbling*0.05) + (players[i].shooting*0.05) + 
+           (players[i].physical*0.30) + (players[i].defending*0.30) + (players[i].passing*0.10) + (players[i].reflexes*0.02) + 
+           (players[i].diving*0.02) + (players[i].handling*0.02) + (players[i].skill_position*0.04);
+
+            defending_effectivity += fieldskill;
+
+            defendingplayers.push_back(players[i]);
+            
+            }
+        }
+
+        // Goalkeeping
+        if (players[i].position == goalkeeper)
+        {
+            int fieldskill = (players[i].pace*0.02) + (players[i].dribbling*0.02) + (players[i].shooting*0.02) + 
+            (players[i].physical*0.02) + (players[i].defending*0.02) + (players[i].passing*0.05) + (players[i].reflexes*0.25) + 
+            (players[i].diving*0.25) + (players[i].handling*0.20) + (players[i].skill_position*0.15);
+
+            goalkeeping_effectivity += fieldskill;
+
+            goalkeeperplayer.push_back(players[i]);
+           
+        }
+    }
+
+    //looping through the divided players:
+    
+    for (int i = 0; i < attackingplayers.size(); i++)
+    {
+        std::cout << "Attackers:    " << attackingplayers[i].name << std::endl;
+        sorted_players[key] = attackingplayers[i].name;
+        key += 1;
+
+        int attackbonus = 0.90; // -10% bonus if only 1 player
+        attackbonus += 0.10;
+    }
+
+    for (int i = 0; i < midfieldingplayers.size(); i++)
+    {
+        std::cout << "Midfielders:   " << midfieldingplayers[i].name << std::endl;
+        sorted_players[key] = midfieldingplayers[i].name;
+        key += 1;
+
+        int midfieldingbonus = 0.80; // -20% bonus if only 1 player
+        midfieldingbonus += 0.10;
+    }
+
+    for (int i = 0; i < defendingplayers.size(); i++)
+    {
+        std::cout << "Defenders:    " << defendingplayers[i].name << std::endl;
+        sorted_players[key] = defendingplayers[i].name;
+        key += 1;
+
+        int defendingbonus = 0.80; // -20% bonus if only 1 player
+        defendingbonus += 0.10;
+    }
+
+    std::cout << "Goalkeeper:   " << goalkeeperplayer[0].name << std::endl;
+    sorted_players[key] = goalkeeperplayer[0].name;
+
+}
+
 
 
 

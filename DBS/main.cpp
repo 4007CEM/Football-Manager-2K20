@@ -14,8 +14,11 @@ int main()
     init.InitWindow();
     */
 
-    Players::InitPlayers(LiverpoolSubs, InitLiverpoolSubs);
-    Players::PrintPlayers(LiverpoolSubs);
+    Players::InitPlayers(ManchesterUInfield, InitManchesterUInfield);
+    // Players::PrintPlayers(LiverpoolSubs);
+    Players::Fieldskill(ManchesterUInfield);
+    // Players::PrintPlayers(ManchesterUInfield);
+    
 
 
 
