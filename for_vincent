@@ -1,0 +1,69 @@
+// I was thinking about something like this
+
+int Players::Playerskill(int player, std::string position) // If I understand it correctly you are using int to get players name
+{
+    //Attacking
+    if (position == "attack")
+    {
+        int fieldskill = (players[player].pace*0.25) + (players[player].dribbling*0.25) + (players[player].shooting*0.25) + 
+                         (players[player].physical*0.10) + (players[player].defending*0.05) + (players[player].passing*0.10);
+        return fieldskill;
+    }
+
+    //Finish:
+    //Midfielding
+    else if (position == "midfield")
+    {}
+    //Defending
+    else if (position == "defend")
+    {}
+    //Goalkeeping
+    else if (position == "goalkeeper")
+    {}
+}
+
+void Players::Fieldskill(std::vector<Players> &players)
+{
+     std::map<int,int> attack ={ 
+    { 0,-100 },
+    { 1,-10  },
+    { 2,0    },
+    { 3,10   }    // add all
+    };
+    
+    // create map for each football field
+  
+    std::vector<std::string> attacking = {"LS", "CS", "CF", "RS", "LW", "RW", "ST", "LM", "RM", "CAM"};
+    std::vector<std::string> midfielding = {"LAM", "CAM", "RAM", "LCM", "CM", "RCM"};
+    std::vector<std::string> defending = {"LWB", "LDM", "CDM", "RDM", "RWB", "LB", "LCB", "CB", "RCB", "RB", "SW"};
+    std::string goalkeeper = "GK";
+
+    std::map<int , std::string> sorted_players;
+    int key = 1;
+  
+    int attackers = 0;
+    // add more
+
+    for(unsigned int i = 0; i < players.size(); i++)
+    {
+        // Attacking
+        for (unsigned int j = 0; j < attacking.size(); j++) 
+        {
+            std::string pos = attacking[j];
+            if (players[i].position == pos)
+            {
+                int fieldskill = Players::Playerskill(i, "attack");
+                int average_skill += fieldskill;
+                attackers++;
+
+            }
+        } 
+        // FINISH
+        //Midfielding
+        //Defending
+        //Goalkeeping
+    }
+    
+    int attack_bonus = attack.at(attackers);
+    int attacking_effectivity = (average_skill/100)* attack_bonus + average_skill;
+}
