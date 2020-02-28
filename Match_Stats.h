@@ -75,6 +75,8 @@ class Match_Stats
     {
         if (value_get == "user_input")                 
             return user_input;
+        else if (value_get == "player_event")
+           return player_event;
         else if (value_get == "player_event_question") 
             return player_event_question;
         else if (value_get == "player_event_option_A") 
@@ -225,3 +227,4 @@ std::string Match_Stats::player_A = "NO";
 std::string Match_Stats::player_B = "NO";
 std::string Match_Stats::tactics = "NO";
 std::string Match_Stats::comment = "NO";
+
