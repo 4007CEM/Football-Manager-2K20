@@ -41,6 +41,7 @@ class Commentator
     
     { "FOUL", { "Comment1", "Comment2", "Comment3" } },
     { "FOUL_YELLOW", { "Comment1", "Comment2", "Comment3" } },
+    { "FOUL_DOUBLE_YELLOW", { "Comment1", "Comment2", "Comment3" } },
     { "FOUL_RED", { "Comment1", "Comment2", "Comment3" } }
     }; //ADD from last options in player event
    
