@@ -10,8 +10,6 @@
 #include "Match_Stats.h"
 #include "Rating.h"
 #include "Commentator.h"
-// rename file to match opportunities
-// split classes to files
 
 Match_Stats Stats;
 Rating Effectivity;
@@ -21,7 +19,102 @@ std::string com;
 class Match_Opportunities
 {
     private:
-       
+    bool cards_counter(std::string player_name)
+    {
+        std::map<std::string,std::vector<std::string>> cards_yellow = Stats.cards_get("cards_yellow");
+        std::vector<std::string> to_red;
+        std::vector<std::string> new_yellow;
+        bool changed = false;
+        
+        //Iterate over the map using c++11 range based for loop
+        for (std::pair<std::string,std::vector<std::string>> element : cards_yellow) 
+        {
+            new_yellow.clear();
+            to_red.clear();
+            // Accessing KEY from element
+            std::string team = element.first;
+            // Accessing VALUE from element.
+            std::vector<std::string> player = element.second;
+            
+            for (unsigned int i = 0; i < player.size(); i++)
+            {
+                if (player[i] == player_name)
+                {                   
+
+                    event_red(team, player[i]);
+                    player.erase(player.begin() + i);
+                    com = Comment.comment_get("FOUL_DOUBLE_YELLOW");
+                    Stats.comment_set(com);
+                    changed = true;
+                }
+                else
+                {                   
+                    new_yellow.push_back(player[i]);
+                }
+                
+            }
+            cards_yellow[team] = new_yellow;
+        }
+    Stats.cards_set("cards_yellow",cards_yellow);
+    return changed;
+    }
+    
+    void event_yellow(std::string team_name,std::string player_name)
+    {       
+        std::map<std::string,std::vector<std::string>> cards_yellow = Stats.cards_get("cards_yellow"); // ???
+    
+        if (cards_counter(player_name) == false)
+        {
+            for (std::pair<std::string,std::vector<std::string>> element : cards_yellow) 
+            {
+                // Accessing KEY from element
+                std::string team = element.first;
+                // Accessing VALUE from element
+                std::vector<std::string> player = element.second;
+                
+                if (team == "A" && team_name == "A")
+                {
+                    player.push_back(player_name);
+                    cards_yellow[team_name] = player;
+                }
+                else if (team == "B" && team_name == "B")
+                {
+                    player.push_back(player_name);
+                    cards_yellow[team_name] = player;
+                }
+            }
+            com = Comment.comment_get("FOUL_YELLOW");
+            Stats.comment_set(com);
+        }
+    Stats.cards_set("cards_yellow",cards_yellow); // ???
+    }
+    
+    void event_red(std::string team_name,std::string player_name)
+    {       
+        std::map<std::string,std::vector<std::string>> cards_red = Stats.cards_get("cards_red");
+        for (std::pair<std::string,std::vector<std::string>> element : cards_red) 
+        {
+            // Accessing KEY from element
+            std::string team = element.first;
+            // Accessing VALUE from element
+            std::vector<std::string> player = element.second;
+
+            if (team == "A" && team_name == "A")
+            {
+                player.push_back(player_name);
+                cards_red[team_name] = player;
+            }
+            else if (team == "B" && team_name == "B")
+            {
+                player.push_back(player_name);
+                cards_red[team_name] = player;
+            }
+        }
+    Stats.cards_set("cards_red",cards_red);
+    com = Comment.comment_get("FOUL_RED");
+    Stats.comment_set(com);
+    }
+    
     bool event_foul(int bonus_foul,std::string team)
     {
         
@@ -36,25 +129,23 @@ class Match_Opportunities
                 //ADD LINE: name = get random name from team
                 //ADD LINE: pass name to Match_Stats class                        
                 com = Comment.comment_get("FOUL");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
                 return true;
             }
             else if(random <= 101 * 90 / 100) 
             {
                 Stats.stats_upload("yellow",team);
                 //ADD LINE: name = get random name from team
-                //ADD LINE: pass name to Match_Stats class
-                com = Comment.comment_get("FOUL_YELLOW");
-                Stats.stats_set("comment",com);
+                //ADD LINE: event_yellow(name)
+                // comment updated from event_yellow method
                 return true;
             }
             else
             {
                 Stats.stats_upload("red",team);
                 //ADD LINE: name = get random name from team
-                //ADD LINE: pass name to Match_Stats class
-                com = Comment.comment_get("FOUL_RED");
-                Stats.stats_set("comment",com);
+                //ADD LINE: event_red(name)
+                // COMMENT UPDATED FROM RED METHOD
                 return true;
             }
         }
@@ -75,7 +166,7 @@ class Match_Opportunities
             Stats.stats_upload("injury",team);
             // ADD LINE: suspend player for whole match
             com = Comment.comment_get("SERIOUS_INJURY");
-            Stats.stats_set("comment",com);
+            Stats.comment_set(com);
         }
         else
         {
@@ -85,14 +176,14 @@ class Match_Opportunities
                 Stats.stats_upload("injury",team);
                 // ADD LINE: suspend player for some time in match, add some penalty for injured player
             com = Comment.comment_get("TEMPORARY_INJURY");
-            Stats.stats_set("comment",com);
+            Stats.comment_set(com);
             }
             else
             {
                 Stats.stats_upload("injury",team);
                 // ADD LINE: add some penalty for injured player
             com = Comment.comment_get("LIGHT_INJURY");
-            Stats.stats_set("comment",com);
+            Stats.comment_set(com);
             }
         }
     }
@@ -109,9 +200,8 @@ class Match_Opportunities
         {
             Stats.stats_upload("penalty",team);
             Stats.stats_upload("goal",team);
-            // ADD LINE: update class for current match stats, VALUE: PENALTY_AT, GOAL_AT  NOT SURE
             com = Comment.comment_get("GOAL_PENALTY");
-            Stats.stats_set("comment",com);
+            Stats.comment_set(com);
         }
         else
         {
@@ -137,14 +227,17 @@ class Match_Opportunities
             {
                 Stats.stats_upload("cornerkick",team);
                 com = Comment.comment_get("CORNERKICK_AT");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
                 event_shotongoal(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {   
                 Stats.stats_upload("cornerkick",team);
                 Stats.stats_upload("attempt",team);
-                
+                com = Comment.comment_get("CORNERKICK_AT");
+                Stats.comment_set(com);
+                com = Comment.comment_get("ATTEMPT_AT");
+                Stats.comment_set(com);
                 // ADD LINE: update class for current match stats, VALUE: CORNERKICK_AT, ATTEMPT_AT 
             }
         }
@@ -155,14 +248,14 @@ class Match_Opportunities
             {
                 Stats.stats_upload("cornerkick",team);
                 com = Comment.comment_get("CORNERKICK_DEFF_PENALTY");
-                Stats.stats_set("comment",com);                
+                Stats.comment_set(com);               
                 event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
               Stats.stats_upload("cornerkick",team);
               com = Comment.comment_get("CORNERKICK_DEFF");
-              Stats.stats_set("comment",com);  
+              Stats.comment_set(com); 
             }
         }
     }
@@ -183,13 +276,16 @@ class Match_Opportunities
             {
                 Stats.stats_upload("shotongoal",team);
                 Stats.stats_upload("goal",team);
-                // ADD LINE: update class for current match stats, VALUE: ?SHOTONGOAL_AT, GOAL_AT
+                com = Comment.comment_get("SHOTONGOAL_AT");
+                Stats.comment_set(com);
+                com = Comment.comment_get("GOAL_AT");
+                Stats.comment_set(com);
             }
             else
             {
                 Stats.stats_upload("shotongoal",team);
                 com = Comment.comment_get("SHOTONGOAL_AT");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
             }
         }
         else
@@ -199,14 +295,14 @@ class Match_Opportunities
             {
                 Stats.stats_upload("shotongoal",team);
                 com = Comment.comment_get("SHOTONGOAL_DEFF_CORNERKICK");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
                 event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
             }
             else
             {
                 Stats.stats_upload("shotongoal",team);
                 com = Comment.comment_get("SHOTONGOAL_DEFF");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
             }
         }
     }
@@ -231,7 +327,7 @@ class Match_Opportunities
             {
                 Stats.stats_upload("attempt",team);
                 com = Comment.comment_get("ATTEMPT_AT");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
             }
         }
         else
@@ -241,7 +337,7 @@ class Match_Opportunities
             {
                 Stats.stats_upload("attempt",team);
                 com = Comment.comment_get("ATTEMPT_DEFF_PENALTY");
-                Stats.stats_set("comment",com);
+                Stats.comment_set(com);
                 event_penalty(attackers_effectivity, goalkeepers_effectivity, team);
             }
             else
@@ -249,15 +345,17 @@ class Match_Opportunities
                 int cornerkick = D_Number * 10 / 100 + penalty;
                 if(random <= cornerkick)
                 {   
-                    Stats.stats_upload("attempt",team);
+                    //Stats.stats_upload("attempt",team); ?????
+                    com = Comment.comment_get("ATTEMPT_DEFF_CORNERKICK");
                     // NOPE ?? ADD LINE: update class for current match stats, VALUE: ATTEMPT_DEFF_CORNERKICK
+                    Stats.comment_set(com);
                     event_cornerkick(attackers_effectivity, deffenders_effectivity, goalkeepers_effectivity, team);
                 }
                 else
                 {
                     Stats.stats_upload("attempt",team);
                     com = Comment.comment_get("ATTEMPT_DEFF");
-                    Stats.stats_set("comment",com);
+                    Stats.comment_set(com);
                 }
             }
         }
@@ -370,12 +468,6 @@ class Match_Opportunities
      int random_player = rand() % 11;
      std::string player_name = "ADAM PLAYER"; //DELL
 
-      std::string question11 = "Your trainer instincts tell you to do something. You called player " + player_name + " to tell him what to do next. What he should do?";
-      std::string question10 = player_name + " is asking you what he should do?";
-      std::string question9  = player_name + " wants to play more aggresive, what do you think? ";
-      std::string question8  = player_name + " wants to play more defensively, what do you think? ";
-      std::string question12 = player_name + " wants to play more for posesion, what do you think? ";
-
       std::vector<std::string> question_vec = {
       "question 1_1 0",
       "question 1_2 1",
@@ -385,11 +477,11 @@ class Match_Opportunities
       "Opposition is pressuring you, which area should you focus on?",
       "Your team is holding back, where on the field will you reinforce?",
       "You believe that one of the positions needs a boost, which one do you want to strengthen?",
-      question8,
-      question9,
-      question10,
-      question11, 
-      question12};
+      player_name + " wants to play more defensively, what do you think?",
+      player_name + " wants to play more aggresive, what do you think?",
+      player_name + " is asking you what he should do?",
+      "Your trainer instincts tell you to do something. You called player " + player_name + " to tell him what to do next. What he should do?", 
+      player_name + " wants to play more for posesion, what do you think? "};
 
       std::string event;
       std::string question;
@@ -434,7 +526,6 @@ class Match_Opportunities
 
       Stats.stats_set("player_event_question",question);   
       Stats.stats_set("player_event","EVENT"); 
-      std::cout <<"From player_event method "<< Stats.stats_get("player_event") << std::endl;
     }  
     
     void event_answer(std::string event, std::string answer, std::string player_name)
@@ -448,9 +539,6 @@ class Match_Opportunities
           {
           event_shotongoal(0,0,0,"A");
           }
-          else
-          std::cout << "NONE" << std::endl;
-          //ADD LINE: upload commentator value: ACTION_NOTHING
       }
       else if (event == "player_bonus")
       {
@@ -553,7 +641,7 @@ class Match_Opportunities
       {
            
           std::string playerA = "A";
-          std::string playerB = "B"; // WTF?????
+          std::string playerB = "B";
           
           std::string player = matchopportunity_player(playerA_possesion,playerB_possesion);
           
@@ -637,7 +725,6 @@ class Match_Opportunities
                   if (ev_type == "player")
                   {
                       event_player();
-                      std::cout <<"From matchopportunity_mechanics method "<< Stats.stats_get("player_event") << std::endl;
                       return true;
                   }
                   else
