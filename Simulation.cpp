@@ -1,13 +1,10 @@
 #include <iostream>
-//#include <stdlib.h>
-//#include <stdio.h>
 #include <string>
 #include <time.h>
-//#include <vector>
 #include <chrono>
-// #include <unistd.h>
 
-#include "simulation.h"
+
+#include "Match_Opportunities.h"
 
 Match_Opportunities Minute;
 
@@ -27,6 +24,7 @@ void timer(int milliseconds)
 int main()
 {
    srand (time(0)); 
+
    int counter = 0;
 
    while (counter != 94)
@@ -37,7 +35,6 @@ int main()
      
        if (Stats.stats_get("player_event") == "EVENT")
        {
-           std::cout << Stats.stats_get("player_event") << std::endl;
            std::string x1 = Stats.stats_get("player_event_question");
            std::cout << x1 <<std::endl;
            std::string x2 = Stats.stats_get("player_event_option_A");
@@ -54,16 +51,22 @@ int main()
 
            Stats.stats_set("player_event","NO");            
        }
-       std::cout << Stats.stats_get("comment") << std::endl;
-       timer(200);
        
-
+       std::vector<std::string> comment = Stats.comment_get();
+       if (comment.size() != 0)
+       {
+           for (unsigned int i = 0; i < comment.size(); i++)
+           {
+               std::cout << comment[i] << std::endl;
+           }
+         Stats.comment_set("",true);
+       }
+       
+       timer(200);
        counter += 1;
    }
-  
-    //Stats.stats_get();
+    std::cout << "\n" << "END RESULTS:" << "\n" << std::endl;
+    Stats.stats_get("temp");
     
     return 0;
 }
-
-//    std::this_thread::sleep_for(std::chrono::milliseconds(200));
