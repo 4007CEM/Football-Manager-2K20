@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 class Match_Stats
 {
@@ -43,7 +44,10 @@ class Match_Stats
     
     static std::string tactics;
     
-    static std::string comment;
+    static std::vector<std::string> comment;
+    
+    static std::map<std::string,std::vector<std::string>> cards_yellow;
+    static std::map<std::string,std::vector<std::string>> cards_red;
     
     public:
     
@@ -67,10 +71,35 @@ class Match_Stats
             player_A = input;
         else if (event == "player_B")              
             player_B = input;
-        else if (event == "comment")               
-            comment = input;
+    }
+    std::map<std::string,std::vector<std::string>> cards_get(std::string value_get)
+    {
+        if (value_get == "cards_yellow")
+            return cards_yellow;
+        else if (value_get == "cards_red")
+            return cards_red;
+    }
+    void cards_set(std::string value_get,std::map<std::string,std::vector<std::string>> input)
+    {
+        if (value_get == "cards_yellow")
+            cards_yellow = input;
+        else if (value_get == "cards_red")
+            cards_red = input;
     }
     
+    void comment_set(std::string newcomment, bool clear=false)
+    {
+        comment.push_back(newcomment);
+        if (clear == true)
+        {
+            comment.clear();
+        }
+    }
+    std::vector <std::string> comment_get()
+    {             
+            return comment;
+    }
+    // use template
     std::string stats_get(std::string value_get)
     {
         if (value_get == "user_input")                 
@@ -91,8 +120,6 @@ class Match_Stats
             return player_A;
         else if (value_get == "player_B")              
             return player_B;
-        else if (value_get == "comment")               
-            return comment;
         else if (value_get == "temp")
         {
         std::cout << "Player A:"
@@ -123,7 +150,7 @@ class Match_Stats
         ", goal: "       << B_goal << 
         std::endl;
         }
-    }
+    }     
 
     void stats_upload(std::string event, std::string team)
     {
@@ -175,8 +202,7 @@ class Match_Stats
         A_goal = 0;
         A_foul = 0;
         A_yellow = 0;
-        A_red = 0;
-    
+        A_red = 0;  
         B_penalty = 0;
         B_cornerkick = 0;
         B_offside = 0;
@@ -188,7 +214,27 @@ class Match_Stats
         B_foul = 0;
         B_yellow = 0;
         B_red = 0;  
-    }
+        user_input = "NO";
+        player_event = "NO";
+        player_event_question = "NO";
+        player_event_option_A = "NO";
+        player_event_option_B = "NO";
+        player_event_option_C = "NO";
+        player_event_option_D = "NO";
+
+        player_A = "NO";
+        player_B = "NO";
+        tactics = "NO";
+        comment = {};
+        cards_yellow = {
+                       { "A", {} },
+                       { "B", {} }
+                       };
+        cards_red = {
+                    { "A", {} },
+                    { "B", {} }
+                    };
+        }
 };
 
 int Match_Stats::A_penalty = 0;
@@ -214,17 +260,24 @@ int Match_Stats::B_goal = 0;
 int Match_Stats::B_foul = 0;
 int Match_Stats::B_yellow = 0;
 int Match_Stats::B_red = 0;
- 
-std::string Match_Stats::user_input = "NO";
-std::string Match_Stats::player_event = "NO";
-std::string Match_Stats::player_event_question = "NO";
-std::string Match_Stats::player_event_option_A = "NO";
-std::string Match_Stats::player_event_option_B = "NO";
-std::string Match_Stats::player_event_option_C = "NO";
-std::string Match_Stats::player_event_option_D = "NO";
 
-std::string Match_Stats::player_A = "NO";
-std::string Match_Stats::player_B = "NO";
-std::string Match_Stats::tactics = "NO";
-std::string Match_Stats::comment = "NO";
+std::string Match_Stats::user_input;
+std::string Match_Stats::player_event;
+std::string Match_Stats::player_event_question;
+std::string Match_Stats::player_event_option_A;
+std::string Match_Stats::player_event_option_B;
+std::string Match_Stats::player_event_option_C;
+std::string Match_Stats::player_event_option_D;
 
+std::string Match_Stats::player_A;
+std::string Match_Stats::player_B;
+std::string Match_Stats::tactics;
+std::vector<std::string> Match_Stats::comment = {};
+std::map<std::string,std::vector<std::string> > Match_Stats::cards_yellow = {
+    { "A", {} },
+    { "B", {} }
+};
+std::map<std::string,std::vector<std::string> > Match_Stats::cards_red = {
+    { "A", {} },
+    { "B", {} }
+};
