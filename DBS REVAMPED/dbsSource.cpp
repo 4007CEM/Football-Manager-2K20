@@ -51,22 +51,6 @@ void Players::PrintPlayers(std::vector<Players> &players)
     }
 }
 
-// Players Players::Selectplayer(std::vector<Players> &players)
-// {
-//     std::cout << "Name :" << "\n\n";
-//     int j = 1;
-//     int option;
-//     for(unsigned int i = 0; i < players.size(); i++)
-//     {
-//         std::cout << j << "     " << players[i].name << '\n';
-//         j += 1;
-//     }
-//     std::cin >> option;
-//     option + 1;
-//     Players select = players[option];
-//     return select;
-// }
-
 
 int Players::Playerskill(std::vector<Players> &players, int option)
 {
@@ -82,6 +66,7 @@ int Players::Playerskill(std::vector<Players> &players, int option)
         {
             int attacking_fieldskill = (players[option].pace*0.25) + (players[option].dribbling*0.25) + (players[option].shooting*0.25) + 
                             (players[option].physical*0.10) + (players[option].defending*0.05) + (players[option].passing*0.10);
+            //std::cout << "Attackers: " << players[option].name << "     Fieldskill: " << attacking_fieldskill << std::endl;
             return attacking_fieldskill;
         }
     }
@@ -121,46 +106,51 @@ int Players::Playerskill(std::vector<Players> &players, int option)
 
 int Players::Fieldskill(std::vector<Players> &players)
 {
-     std::map<int,int> attack ={ 
-    { 0,-100 },
-    { 1,-10  },
+     std::map<int,float> attack ={ 
+    { 0,-1.00 },
+    { 1,-0.10  },
     { 2, 0   },
-    { 3, 10  },
-    { 4, 20  },
-    { 5, 30  },
-    { 6, 40  },
-    { 7, 50  },
-    { 8, 60  },
-    { 9, 70  },
-    { 10, 80 }
+    { 3, 0.10  },
+    { 4, 0.20  },
+    { 5, 0.30  },
+    { 6, 0.40  },
+    { 7, 0.50  },
+    { 8, 0.60  },
+    { 9, 0.70  },
+    { 10, 0.80 }
     };
     
-    std::map<int,int> midfield ={ 
-    { 0,-100 },
-    { 1,-20  },
-    { 2,-10  },
+    std::map<int,float> midfield ={ 
+    { 0,-1.00 },
+    { 1,-0.20  },
+    { 2,-0.10  },
     { 3, 0  },
-    { 4, 10  },
-    { 5, 20  },
-    { 6, 30  },
-    { 7, 40  },
-    { 8, 50  },
-    { 9, 60  },
-    { 10, 70 }
+    { 4, 0.10  },
+    { 5, 0.20  },
+    { 6, 0.30  },
+    { 7, 0.40  },
+    { 8, 0.50  },
+    { 9, 0.60  },
+    { 10, 0.70 }
     };
 
-    std::map<int,int> defence ={ 
-    { 0,-100 },
-    { 1,-20  },
-    { 2,-10  },
+    std::map<int,float> defence ={ 
+    { 0,-1.00 },
+    { 1,-0.20  },
+    { 2,-0.10  },
     { 3, 0  },
-    { 4, 10  },
-    { 5, 20  },
-    { 6, 30  },
-    { 7, 40  },
-    { 8, 50  },
-    { 9, 60  },
-    { 10, 70 }
+    { 4, 0.10  },
+    { 5, 0.20  },
+    { 6, 0.30  },
+    { 7, 0.40  },
+    { 8, 0.50  },
+    { 9, 0.60  },
+    { 10, 0.70 }
+    };
+
+    std::map<int,float> goalkeeper_map ={
+    { 0, -1.00 },
+    { 1, 0 }
     };
   
     //Positions converted:
@@ -227,20 +217,35 @@ int Players::Fieldskill(std::vector<Players> &players)
     attackers_average_skill = attackers_average_skill/attackers;
     midfielders_average_skill = midfielders_average_skill/midfielders;
     defenders_average_skill = defenders_average_skill/defenders;
+    goalkeeper_average_skill = goalkeeper_average_skill/goalkeepers;
 
-    int attack_bonus = attack.at(attackers);
-    int attacking_effectivity = (attackers_average_skill/100)* attack_bonus + attackers_average_skill;
+    float attack_bonus = attack.at(attackers);
+    int attacking_effectivity = (attackers_average_skill * attack_bonus) + attackers_average_skill;
 
-    int midfield_bonus = midfield.at(midfielders);
-    int midfielding_effectivity = (midfielders_average_skill/100)* midfield_bonus + midfielders_average_skill;
+    float midfield_bonus = midfield.at(midfielders);
+    int midfielding_effectivity = (midfielders_average_skill * midfield_bonus) + midfielders_average_skill;
 
-    int defenders_bonus = defence.at(defenders);
-    int defending_effectivity = (defenders_average_skill/100)* defenders_bonus + defenders_average_skill;
+    float defenders_bonus = defence.at(defenders);
+    int defending_effectivity = (defenders_average_skill * defenders_bonus) + defenders_average_skill;
 
-    int goalkeeping_effectivity = (goalkeeper_average_skill/100)* goalkeeper_average_skill;
+    float goalkeeper_bonus = goalkeeper_map.at(goalkeepers);
+    int goalkeeping_effectivity = (goalkeeper_average_skill * goalkeeper_bonus) + goalkeeper_average_skill;
 
     int field_effectivity = attacking_effectivity + midfielding_effectivity + defending_effectivity + goalkeeping_effectivity;
+    std::cout << "Attackers Average Skill: " << attackers_average_skill << std::endl;
+    std::cout << "Midfielders Average Skill: " << midfielders_average_skill << std::endl;
+    std::cout << "Defenders Average Skill: " << defenders_average_skill << std::endl;
+    std::cout << "Goalkeeper Average Skill: " << goalkeeper_average_skill << "\n" << std::endl;
+    // std::cout << "\nAttacking Bonus: " << attack_bonus << std::endl;
+    // std::cout << "Effectivity: " << attacking_effectivity << std::endl;
+    // std::cout << "Formation: " << defenders << "-" << midfielders << "-" << attackers << std::endl;
+    // std::cout << "Overall field_effectivity: " << field_effectivity << "\n" << std::endl;
+    std::cout << "Attackers effectivity: " << attacking_effectivity << std::endl;
+    std::cout << "Midfielders effectivity: " << midfielding_effectivity << std::endl;
+    std::cout << "Defenders effectivity: " << defending_effectivity << std::endl;
+    std::cout << "Goalkeeper effectivity: " << goalkeeping_effectivity << std::endl;
 
+    std::cout << "\nOverall field_effectivity: " << field_effectivity << "\n" << std::endl;
     return field_effectivity;
 }
 
