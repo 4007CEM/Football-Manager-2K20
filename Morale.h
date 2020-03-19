@@ -24,6 +24,7 @@ class TeamPlay{
         int score;
 
     public:
+        TeamPlay(int tRating,int sc);
         void updateTeamPlay();
         int getTeamPlay();
 }
