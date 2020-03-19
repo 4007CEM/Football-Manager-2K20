@@ -10,6 +10,14 @@ private:
   float earnings; // Money gained from winning games/selling players
 
 public:
+  Shop(float money, Squad forSale); // initialisation of shop
+  {
+    earnings = round_money(earnings);
+    for(int i = 0; i < forSale.size(); i++)
+    {
+      forSale[i] = forSale.inField[i];
+    }
+  }
   array<Players> get_for_sale(); // retrieves all players for sale
   float get_earnings(); // retrieves earnings
   void sell_player(Players a,Squad aSquad); // sells a given player for money
