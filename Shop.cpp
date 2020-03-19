@@ -1,72 +1,41 @@
-#include<iostream>
-#include<algorithms>
 #include<Vector>
 #include "dbsSource.cpp"
 #include "dbsSource.h"
 
-class Shop
+Shop::array<Players> get_for_sale()
+{ 
+    return forSale;
+}
+
+Shop::get_earnings()
 {
-private:
-    vector<Players> forSale;
-    float earnings;
+    return earnings;
+}
 
-public:
-    Shop(earnings)
+Shop::sell_player(Players a,Squad aSquad)
+{ // check for player in the squad, remove him, compensate user
+    for(int i=0;i<aSquad.inField.size();i++)
     {
-        earnings = round(earnings);
-        for(int i = 0; i < forSale.size(); i++)
+        if(inField[i] == a) 
         {
-            forSale[i] = 0;//fill forSale array
-        }
-    }
+            inField.erase(inField.begin() + i);
+            forSale.push_back(a);
+            earnings += a.value;
+            break;
+        }//end if
+    }//end for
+}
 
-    array<Players> get_for_sale()
-    { 
-        return forSale;
-    }
+Shop::train_player(Players a, int choice)
+{ // Choices are as follows: 0 attack, 1 midfield, 2 defense, else goalkeeper
+    if(choice == 0) a.pace, a.shooting += 10; 
+    else if(choice == 1) a.passing, a.dribbling += 10;
+    else if(choice == 2) a.defending, a.physical += 10;
+    else a.reflexes, a.diving, a.handling += 10;
+}
 
-    float get_earnings()
-    {
-        return earnings;
-    }
-
-    void sell_player(Players a,Squad aSquad)
-    {
-        earnings += a.value;
-        for(int i=0;i<aSquad.inField.size();i++)
-        {
-            if(inField[i] == a)
-            {
-                inField.erase(inField.begin() + i);
-                forSale.push_back(a);
-                break;
-            }
-        }
-    }
-
-    void train_player(Players a, int choice)
-    {
-        if(choice == 0)
-        {
-            a.pace, a.shooting += 10;
-        } 
-        else if(choice == 1)
-        {
-            a.passing, a.dribbling += 10;
-        }
-        else if(choice == 2)
-        {
-            a.defending, a.physical += 10;
-        }
-        else
-        {
-            a.reflexes, a.diving, a.handling += 10;
-        }
-    }
-
-    float round_money(float amount)
-    {   
-        float money = (int)(money * 100 + 0.5);
-        return (float)money / 100;
-    }
+Shop::round_money(float amount)
+{ // rounds to nearest 2nd decimal place   
+    float money = (int)(money * 100 + 0.5);
+    return (float)money / 100;
 }
