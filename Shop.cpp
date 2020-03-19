@@ -1,4 +1,5 @@
 #include<Vector>
+#define "Shop.h"
 #include "dbsSource.cpp"
 #include "dbsSource.h"
 
