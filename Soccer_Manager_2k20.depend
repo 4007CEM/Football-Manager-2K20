@@ -1,0 +1,104 @@
+# depslib dependency file v1.0
+1583364559 source:e:\project2\football-manager-2k20\dbssource.cpp
+	"dbsSource.h"
+	<iostream>
+	<iomanip>
+	<string>
+	<windows.h>
+	"gameFunc.h"
+
+1583363448 e:\project2\football-manager-2k20\dbssource.h
+	<iostream>
+	<vector>
+
+1585525350 e:\project2\football-manager-2k20\gamefunc.h
+	<string>
+	<array>
+	<vector>
+
+1585524534 source:e:\project2\football-manager-2k20\game.cpp
+	<iostream>
+	<windows.h>
+	<string>
+	<stdio.h>
+	<iomanip>
+	<stdlib.h>
+	"gameFunc.h"
+
+1583184666 source:e:\project2\football-manager-2k20\gamewindow.cpp
+	<iostream>
+	<windows.h>
+	<string>
+	<stdio.h>
+	<iomanip>
+	<stdlib.h>
+	<time.h>
+	<chrono>
+	"gameFunc.h"
+
+1583364273 source:e:\project2\football-manager-2k20\main.cpp
+	<iostream>
+	<windows.h>
+	<ctime>
+	<cstdlib>
+	<stdexcept>
+	"gameFunc.h"
+
+1585525675 source:e:\project2\football-manager-2k20\mainwindow.cpp
+	<iostream>
+	<windows.h>
+	<string>
+	<stdio.h>
+	<iomanip>
+	<stdlib.h>
+	"gameFunc.h"
+	"dbsCreation.h"
+	"Match_Opportunities.h"
+
+1583184666 e:\project2\football-manager-2k20\dbscreation.h
+	"dbsSource.h"
+
+1585525508 e:\project2\football-manager-2k20\match_opportunities.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<string>
+	<time.h>
+	<vector>
+	<array>
+	<map>
+	<windows.h>
+	"Match_Stats.h"
+	"Rating.h"
+	"Commentator.h"
+	"gameFunc.h"
+	<chrono>
+
+1583235137 e:\project2\football-manager-2k20\match_stats.h
+	<iostream>
+	<string>
+	<vector>
+	<map>
+	<iomanip>
+
+1583155897 e:\project2\football-manager-2k20\rating.h
+	<iostream>
+	<string>
+
+1583155897 e:\project2\football-manager-2k20\commentator.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<string>
+	<time.h>
+	<vector>
+	<map>
+
+1583201821 source:e:\project2\football-manager-2k20\simulation.cpp
+
+1585524534 source:e:\project2\football-manager-2k20\user.cpp
+	<iostream>
+	<windows.h>
+	<string>
+	"gameFunc.h"
+
