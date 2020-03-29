@@ -1,1 +1,1 @@
-This is a demo for a text based game
+A demo for a text based game
